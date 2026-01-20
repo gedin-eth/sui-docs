@@ -2,6 +2,7 @@
   "mainnet": {
     "rpc": "https://fullnode.mainnet.sui.io:443",
     "scallop": {
+      "addressId": "695fcdc084f790c04eb068dc",
       "package": "0xd384ded6b9e7f4d2c4c9007b0291ef88fbfed8e709bce83d2da69de2d79d013d",
       "version": "0x07871c4b3c847a0f674510d4978d5cf6f960452795e8ff6f189fd2088a3f6ac7",
       "market": "0xa757975255146dc9686aa823b7838b507f315d704f428cbadad2f4ea061939d9",
@@ -19,14 +20,22 @@
       "cdp": "0x9f835c21d21f8ce519fec17d679cd38243ef2643ad879e7048ba77374be4036e",
       "flashMint": "0x0f51f9eb63574a1d12b62295599ac4f8231197f95b3cce9a516daba64f419d06"
     },
-    "navi": {
-      "sui_pool": "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5"
+    "pyth": {
+      "hermes": "https://hermes.pyth.network/v2/updates/price/latest",
+      "feeds": {
+        "sui": "0x23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+        "usdc": "0xeaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+        "usdt": "0x2b89b9dc8fdf9f34709a5b106b472f0f39bb6ca9ce04b0fd7f2e971688e2e53b",
+        "eth": "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace"
+      }
     },
-    "deepbook_v3": {
-      "deep_sui_pool": "0xb663828d6217467c8a1838a03793da896cbe745b150ebd57d82f814ca579fc22"
-    },
-    "cetus": {
-      "sui_usdc_pool": "0xcf994611dc6f975f9b79757b20471da67007c3acb7d5a326c230"
+    "tokens": {
+      "sui": "0x2::sui::SUI",
+      "usdc": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "wusdc": "0x5d4b302506645c37ff133b98c4b50a5ae14841659738d6d733d59d0d217a93bf::coin::COIN",
+      "wusdt": "0xc060006111016b8a020ad5b33834984a437aaa7d3c74c18e09a95d48aceab08c::coin::COIN",
+      "afsui": "0xf325ce1300e8dac124071d3152c5c5ee6174914f8bc2161e88329cf579246efc::afsui::AFSUI",
+      "hasui": "0xbde4ba4c2e274a60ce15c1cfff9e5c42e41654ac8b6d906a57efa4bd3c29f47d::hasui::HASUI"
     }
   }
 }

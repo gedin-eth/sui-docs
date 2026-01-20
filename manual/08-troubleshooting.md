@@ -45,10 +45,10 @@ This index maps common error strings to verified remediation steps.
 
 | Code | Meaning | Remediation |
 | :--- | :--- | :--- |
-| **1025** | Oracle price not found/stale | Call `txBlock.updateAssetPricesQuick(['sui', 'usdc', ...])` before any risk check. |
-| **1537** | Position is healthy (HF >= 1) | Cannot liquidate. Scallop uses EMA prices via xOracle, which may lag behind Pyth spot prices. |
-| **1283** | Flash loan repayment failed | Repayment coin is too small or missing. Check fees and merge coins if necessary. |
-| **513** | Version/Package mismatch | The protocol version object has changed. Update the version object ID in your configuration. |
+| **513** | `assert_current_version` - Version mismatch | The protocol version object has changed. Use the SDK to retrieve the current package ID dynamically. |
+| **1025** | Oracle price not found/stale | Call `txBlock.updateAssetPricesQuick(['sui', 'usdc', ...])` for ALL coins in the obligation. |
+| **1283** | Flash loan repayment failed | Repayment coin is too small or missing. Ensure you have swapped collateral back to the debt asset. |
+| **1537** | Position is healthy (HF >= 1) | Cannot liquidate. Scallop uses EMA prices via xOracle, which may lag behind spot prices. |
 | **770** | Obligation locked | Position is in an incentive program. Call `force_unstake_if_unhealthy` before liquidating. |
 
 ---

@@ -39,10 +39,42 @@ const [remainingDebt, collateralCoin] = tx.moveCall({
 
 Before calling `liquidate`, `borrow`, or any function that checks the Health Factor, you **MUST** update the oracle prices. Failure to do so will result in stale price errors (e.g., Error 1025).
 
+> **Critical**: You must update prices for **ALL** coins present in the obligation (both debt and collateral), not just the ones you are interacting with.
+
 ```typescript
-const txBlock = await scallopBuilder.createTxBlock();
-// Update prices for all relevant assets in the transaction
-await txBlock.updateAssetPricesQuick(['sui', 'usdc', 'wusdc', 'usdt']);
+const stx = scallopBuilder.createTxBlock();
+// Update prices for ALL coins in the obligation
+await stx.updateAssetPricesQuick(['sui', 'usdc', 'wusdc']);
+```
+
+---
+
+## **Obligation Discovery & Data Access**
+
+### **Finding Obligations via Events**
+Liquidators can discover active borrow positions by querying protocol events.
+
+```typescript
+const events = await client.queryEvents({
+  query: { MoveEventModule: {
+    package: '0xefe8b36d5b2e43728cc323298626b83177803521d195cfb11e15b910e892fddf',
+    module: 'borrow'
+  }},
+  limit: 100,
+  order: 'descending'
+});
+```
+
+### **Dynamic Field Access**
+Debt and collateral amounts for an obligation are stored in dynamic fields. Direct RPC queries on the obligation object may return empty fields; use the SDK or specific dynamic field queries.
+
+```typescript
+// Accessing debt amount via dynamic fields
+const debtField = await client.getDynamicFieldObject({
+  parentId: debtTableId,
+  name: { type: '0x1::type_name::TypeName', value: { name: coinType } }
+});
+const amount = debtField.data.content.fields?.value?.fields?.amount;
 ```
 
 ### **xOracle & EMA Lag**
@@ -86,10 +118,12 @@ If a position is unhealthy but locked, you must call `force_unstake_if_unhealthy
 Liquidations are triggered when `HF < 1`.
 
 \[ \text{HF} = \frac{\text{Borrow Capacity}}{\text{Total Debt}} \]
-\[ \text{Borrow Capacity} = \sum (\text{Collateral Value} \times \text{LTV}) \]
+\[ \text{Borrow Capacity} = \sum (\text{Collateral USD} \times \text{Liquidation Threshold}) \]
 
-### **Standard LTV Values**
-- **SUI**: 0.70
-- **USDC**: 0.85
-- **ETH**: 0.75
-- **afSUI**: 0.65
+### **Liquidation Thresholds**
+| Asset | Threshold |
+| :--- | :--- |
+| **SUI** | 0.80 |
+| **USDC** | 0.90 |
+| **wUSDC** | 0.90 |
+| **afSUI** | 0.75 |

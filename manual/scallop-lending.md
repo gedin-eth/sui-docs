@@ -17,8 +17,45 @@ Scallop provides a comprehensive TypeScript SDK for interacting with its lending
 npm install @scallop-io/sui-scallop-sdk
 ```
 
+### **SDK Initialization**
+To ensure compatibility with the latest protocol version, always initialize the SDK with an `addressId`.
+
+```typescript
+import { Scallop } from '@scallop-io/sui-scallop-sdk';
+
+const scallop = new Scallop({
+  addressId: '695fcdc084f790c04eb068dc', // Critical for version compatibility
+  networkType: 'mainnet',
+  walletAddress: '<YOUR_ADDRESS>',
+});
+
+const scallopBuilder = await scallop.createScallopBuilder();
+```
+
+### **Retrieving Protocol Addresses**
+Never hardcode protocol object IDs. Instead, retrieve them dynamically from the SDK builder.
+
+```typescript
+const addresses = (scallopBuilder as any).address;
+const protocolPackage = addresses.get('core.packages.protocol.id');
+const versionObject = addresses.get('core.version');
+const marketObject = addresses.get('core.market');
+const xOracle = addresses.get('core.oracles.xOracle');
+```
+
 ### **Basic Supply Operation**
 Supplying assets to Scallop allows you to earn interest and use the assets as collateral.
+
+---
+
+## **Oracle Price Updates (Mandatory)**
+Before performing any operation that checks a position's health (e.g., borrow or liquidate), you **MUST** update the oracle prices in the same PTB.
+
+```typescript
+const stx = scallopBuilder.createTxBlock();
+// Update prices for all assets in the obligation
+await stx.updateAssetPricesQuick(['sui', 'usdc', 'wusdc']);
+```
 
 ```typescript
 import { Scallop } from '@scallop-io/sui-scallop-sdk';

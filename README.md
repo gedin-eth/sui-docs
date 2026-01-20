@@ -42,10 +42,12 @@ Run the core verification script to check network connectivity and CLI status:
 ### **Ecosystem Manuals**
 - [Sui Core & CLI](./manual/sui-core.md)
 - [Liquidation Bots & Mechanics](./manual/10-liquidation-bots.md)
+- [Oracle Integration](./manual/13-oracle-integration.md)
 - [Scallop Lending](./manual/scallop-lending.md)
 - [Suilend Protocol](./manual/11-suilend.md)
 - [Bucket Protocol (CDP)](./manual/12-bucket-protocol.md)
 - [NAVI Lending](./manual/navi-lending.md)
+- [Common Coin Types](./manual/14-token-registry.md)
 
 ### **Network Configuration**
 Common protocol Object IDs are available in [config/network.json](./config/network.json).
