@@ -1,0 +1,9 @@
+node_modules/
+temp_test/
+scripts/auth.ts
+test_key.json
+test_key.txt
+.env
+dist/
+build/
+.DS_Store

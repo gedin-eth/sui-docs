@@ -1,0 +1,14 @@
+{
+  "sui_cli": "1.59.1",
+  "sui_framework_rev": "framework/mainnet",
+  "sdk_versions": {
+    "@mysten/sui": "1.45.2",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "defi_sdks": {
+    "cetus": "5.4.0",
+    "scallop": "2.3.13",
+    "navi": "^2.0.0"
+  }
+}

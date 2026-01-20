@@ -1,0 +1,24 @@
+{
+  "name": "sui-builders-manual",
+  "version": "1.0.0",
+  "description": "A version-pinned, tested reference implementation for Sui builders.",
+  "main": "index.js",
+  "scripts": {
+    "doctor": "tsx scripts/doctor.ts",
+    "test:ptb": "tsx examples/ts/ptb_transfer.ts",
+    "exec:scallop": "tsx examples/defi/scallop_supply.ts",
+    "exec:cetus": "tsx examples/defi/cetus_swap.ts",
+    "exec:navi": "tsx examples/defi/navi_supply.ts"
+  },
+  "dependencies": {
+    "@cetusprotocol/cetus-sui-clmm-sdk": "^5.4.0",
+    "@mysten/sui": "^1.45.2",
+    "@scallop-io/sui-scallop-sdk": "^2.3.13",
+    "navi-sdk": "^1.6.24"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.30",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
