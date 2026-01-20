@@ -1,0 +1,22 @@
+{
+  "mainnet": {
+    "rpc": "https://fullnode.mainnet.sui.io:443",
+    "protocols": {
+      "scallop": {
+        "market": "0xa757975255146dc9686aa823b7838b507f315d704f428cbadad2f4ea061939d9"
+      },
+      "navi": {
+        "sui_pool": "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5"
+      },
+      "deepbook_v3": {
+        "deep_sui_pool": "0xb663828d6217467c8a1838a03793da896cbe745b150ebd57d82f814ca579fc22"
+      }
+    }
+  },
+  "devnet": {
+    "rpc": "https://fullnode.devnet.sui.io:443"
+  },
+  "testnet": {
+    "rpc": "https://fullnode.testnet.sui.io:443"
+  }
+}

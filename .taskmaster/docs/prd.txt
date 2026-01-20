@@ -1,0 +1,56 @@
+<context>
+# Overview
+The goal of this project is to create a comprehensive developer documentation repository (`sui-docs`) for the Sui ecosystem. This involves researching multiple repositories, verifying their functionality with scripts (CLI/curl), and documenting the findings.
+
+# Core Features
+- **Repository Research**: Deep dive into 18+ Sui-related repositories to understand their core functionality and usage.
+- **Verification Scripts**: Create CLI or curl-based scripts to verify the functionality of each repository/protocol.
+- **Documentation**: Update and expand the `sui-docs` repository with detailed guides, code examples, and verification steps.
+
+# User Experience
+The primary users are Sui developers who need clear, verified documentation for various protocols and tools in the ecosystem.
+</context>
+
+<PRD>
+# Technical Architecture
+- **Documentation Engine**: Markdown-based documentation in the `sui-docs` repository.
+- **Verification Tools**: Bash scripts, `sui` CLI, `curl`, and protocol-specific SDKs.
+- **Research MCP**: Use Context7 MCP to retrieve up-to-date documentation and examples.
+
+# Development Roadmap
+## Phase 1: Core Sui Infrastructure
+1. Research and document `sui` (protocol core, Move framework).
+2. Research and document `bcs` (binary canonical serialization).
+3. Research and document `fastcrypto` and `narwhal`.
+4. Create verification scripts for core primitives.
+
+## Phase 2: Major DeFi Protocols
+1. Research and document `scallop-sdk` and `scallop-io`.
+2. Research and document `navi-sdk` and `naviprotocol`.
+3. Research and document `cetus-clmm-sui-sdk` and `CetusProtocol`.
+4. Research and document `sea-protocol`.
+5. Research and document `legato-finance`.
+6. Create verification scripts for lending, swapping, and prediction markets.
+
+## Phase 3: Tools and Specialized SDKs
+1. Research and document `deepbookpy`.
+2. Research and document `sui-butler`.
+3. Research and document `sui-defi-vault`.
+4. Research and document `core-ts`.
+5. Create verification scripts for vault management, CLI tools, and cross-protocol swappers.
+
+## Phase 4: Community and Utility Projects
+1. Research and document `Memetic-LaunchPad`.
+2. Research and document `cetus-volume-booster-bot-sui`.
+3. Research and document `gemwalletcom`.
+4. Finalize `sui-docs` structure and cross-references.
+
+# Logical Dependency Chain
+1. Core infrastructure documentation must come first to establish basic concepts.
+2. Major DeFi protocols follow as they build upon core primitives.
+3. Specialized tools and community projects are documented last.
+
+# Risks and Mitigations
+- **Repository Stale**: Some repositories might be outdated. Mitigation: Check last commit dates and verify with CLI/curl.
+- **Complexity**: High number of repositories. Mitigation: Structured approach using Phase-based roadmap.
+</PRD>

@@ -1,0 +1,75 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": "1",
+        "title": "Phase 1: Core Sui Infrastructure",
+        "description": "Research and document core Sui infrastructure (Sui, BCS, Fastcrypto, Narwhal).",
+        "details": "Explore repositories, verify functionality with CLI/curl, and update sui-docs.",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T20:45:47.124Z"
+      },
+      {
+        "id": "2",
+        "title": "Phase 3: Tools and Specialized SDKs",
+        "description": "Research and document specialized tools and SDKs (Deepbookpy, Sui Butler, Sui DeFi Vault, Core-ts).",
+        "details": "Explore repositories, verify functionality with CLI/curl, and update sui-docs.",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T20:45:47.126Z"
+      },
+      {
+        "id": "3",
+        "title": "Phase 4: Community and Utility Projects",
+        "description": "Research and document community projects (Memetic-LaunchPad, Cetus Volume Booster, GemWallet).",
+        "details": "Explore repositories, verify functionality with CLI/curl, and update sui-docs.",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "low",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T20:45:47.126Z"
+      },
+      {
+        "id": "4",
+        "title": "Phase 2: Major DeFi Protocols",
+        "description": "Research and document major DeFi protocols (Scallop, Navi, Cetus, SeaProtocol, Legato Finance).",
+        "details": "Explore repositories, verify functionality with CLI/curl, and update sui-docs.",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T20:45:47.127Z"
+      },
+      {
+        "id": "5",
+        "title": "Phase 5: Practical Examples & ID Resolution",
+        "description": "Add concrete code examples and resolve actual protocol Object IDs for verification scripts.",
+        "details": "Populate /examples with TS/Move snippets and update /scripts with real addresses.",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T20:48:32.548Z"
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2026-01-20T20:48:32.549Z",
+      "taskCount": 5,
+      "completedCount": 5,
+      "tags": [
+        "master"
+      ]
+    }
+  }
+}
