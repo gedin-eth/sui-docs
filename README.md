@@ -35,9 +35,15 @@ Run the core verification script to check network connectivity and CLI status:
 ```
 
 ### **Advanced Examples**
-Check the `/examples` directory for atomic cross-protocol integrations:
 - [Atomic Swap & Deposit](./examples/ptb-swap-and-deposit.ts)
 - [Flash Loan Arbitrage (Advanced)](./examples/ptb-flash-loan-arbitrage.ts)
+- [Scallop Liquidation](./examples/defi/scallop_liquidate.ts)
+
+### **Ecosystem Manuals**
+- [Sui Core & CLI](./manual/sui-core.md)
+- [Scallop Lending](./manual/scallop-lending.md)
+- [Scallop Liquidation (Deep Dive)](./manual/scallop-liquidation.md)
+- [NAVI Lending](./manual/navi-lending.md)
 
 ### **Network Configuration**
 Common protocol Object IDs are available in [config/network.json](./config/network.json).

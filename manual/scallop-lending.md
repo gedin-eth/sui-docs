@@ -28,24 +28,25 @@ const scallop = new Scallop({
   walletAddress: '<YOUR_ADDRESS>',
 });
 
-const txBuilder = await scallop.createTxBuilder();
-const scallopTxBlock = txBuilder.createTxBlock();
+const scallopBuilder = await scallop.createScallopBuilder();
+const scallopTxBlock = scallopBuilder.createTxBlock();
 
 // Deposit 1 SUI into the lending pool
 const marketCoin = await scallopTxBlock.depositQuick(10 ** 9, 'sui');
 scallopTxBlock.transferObjects([marketCoin], '<YOUR_ADDRESS>');
 
-await txBuilder.signAndSendTxBlock(scallopTxBlock);
+await scallopBuilder.signAndSendTxBlock(scallopTxBlock);
 ```
 
 ### **Withdrawal**
 ```typescript
-const scallopTxBlock = txBuilder.createTxBlock();
+const scallopBuilder = await scallop.createScallopBuilder();
+const scallopTxBlock = scallopBuilder.createTxBlock();
 // Withdraw 1 SUI from the pool
 const coin = await scallopTxBlock.withdrawQuick(10 ** 9, 'sui');
 scallopTxBlock.transferObjects([coin], '<YOUR_ADDRESS>');
 
-await txBuilder.signAndSendTxBlock(scallopTxBlock);
+await scallopBuilder.signAndSendTxBlock(scallopTxBlock);
 ```
 
 ---

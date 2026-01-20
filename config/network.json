@@ -1,22 +1,21 @@
 {
   "mainnet": {
     "rpc": "https://fullnode.mainnet.sui.io:443",
-    "protocols": {
-      "scallop": {
-        "market": "0xa757975255146dc9686aa823b7838b507f315d704f428cbadad2f4ea061939d9"
-      },
-      "navi": {
-        "sui_pool": "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5"
-      },
-      "deepbook_v3": {
-        "deep_sui_pool": "0xb663828d6217467c8a1838a03793da896cbe745b150ebd57d82f814ca579fc22"
-      }
+    "scallop": {
+      "package": "0xd384ded6b9e7f4d2c4c9007b0291ef88fbfed8e709bce83d2da69de2d79d013d",
+      "version": "0x07871c4b3c847a0f674510d4978d5cf6f960452795e8ff6f189fd2088a3f6ac7",
+      "market": "0xa757975255146dc9686aa823b7838b507f315d704f428cbadad2f4ea061939d9",
+      "oracle": "0x93d5bf0936b71eb27255941e532fac33b5a5c7759e377b4923af0a1359ad494f",
+      "decimals": "0x200abe9bf19751cc566ae35aa58e2b7e4ff688fc1130f8d8909ea09bc137d668"
+    },
+    "navi": {
+      "sui_pool": "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5"
+    },
+    "deepbook_v3": {
+      "deep_sui_pool": "0xb663828d6217467c8a1838a03793da896cbe745b150ebd57d82f814ca579fc22"
+    },
+    "cetus": {
+        "sui_usdc_pool": "0xcf994611dc6f975f9b79757b20471da67007c3acb7d5a326c230"
     }
-  },
-  "devnet": {
-    "rpc": "https://fullnode.devnet.sui.io:443"
-  },
-  "testnet": {
-    "rpc": "https://fullnode.testnet.sui.io:443"
   }
 }

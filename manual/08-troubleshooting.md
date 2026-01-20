@@ -41,6 +41,17 @@ This index maps common error strings to verified remediation steps.
 
 ---
 
+## 🐚 Scallop Protocol Errors
+
+| Code | Meaning | Remediation |
+| :--- | :--- | :--- |
+| **1025** | Oracle price not found/stale | Call `txBlock.updateAssetPricesQuick(['sui', 'usdc', ...])` before any risk check. |
+| **1537** | Position is healthy (HF >= 1) | Cannot liquidate. Scallop uses EMA prices via xOracle, which may lag behind Pyth spot prices. |
+| **1283** | Flash loan repayment failed | Repayment coin is too small or missing. Check fees and merge coins if necessary. |
+| **513** | Version/Package mismatch | The protocol version object has changed. Update the version object ID in your configuration. |
+
+---
+
 ## 🤖 AI Guardrails
 
 If you are using an LLM to generate code:
