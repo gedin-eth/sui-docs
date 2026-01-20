@@ -37,12 +37,14 @@ Run the core verification script to check network connectivity and CLI status:
 ### **Advanced Examples**
 - [Atomic Swap & Deposit](./examples/ptb-swap-and-deposit.ts)
 - [Flash Loan Arbitrage (Advanced)](./examples/ptb-flash-loan-arbitrage.ts)
-- [Scallop Liquidation](./examples/defi/scallop_liquidate.ts)
+- [Scallop Liquidation](./examples/ptb-scallop-liquidation.ts)
 
 ### **Ecosystem Manuals**
 - [Sui Core & CLI](./manual/sui-core.md)
+- [Liquidation Bots & Mechanics](./manual/10-liquidation-bots.md)
 - [Scallop Lending](./manual/scallop-lending.md)
-- [Scallop Liquidation (Deep Dive)](./manual/scallop-liquidation.md)
+- [Suilend Protocol](./manual/11-suilend.md)
+- [Bucket Protocol (CDP)](./manual/12-bucket-protocol.md)
 - [NAVI Lending](./manual/navi-lending.md)
 
 ### **Network Configuration**

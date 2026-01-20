@@ -66,7 +66,21 @@ console.log('Borrow Balance:', lendingState.total_borrow);
 sui client object 0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5
 ```
 
-NAVI uses a multi-oracle system to ensure accurate pricing for collateral and debt.
+---
+
+## **Liquidation Mechanics**
+
+NAVI liquidations are triggered when a user's **Health Factor** drops below 1. Unlike Scallop, the liquidation API is less exposed in the standard SDK and often requires direct Move calls.
+
+### **Key Considerations**
+- **Oracles**: NAVI uses **Pyth oracles** for real-time price feeds.
+- **Obligations**: User positions are stored in unique `Obligation` objects.
+- **PTB Requirement**: Like Scallop, ensure oracle prices are updated in the same PTB to avoid stale price errors.
+
+### **Liquidation Logic**
+Liquidations involve repaying a portion of the user's debt asset in exchange for a discounted amount of their collateral asset.
+- **Discount**: Typically 5-10% depending on the asset pair.
+- **Close Factor**: The maximum percentage of debt that can be repaid in a single liquidation event.
 
 ### **Update Oracle Prices in PTB**
 ```javascript
