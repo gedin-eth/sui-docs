@@ -55,13 +55,6 @@ async function main() {
     amount: amountIn.toString(),
     by_amount_in: true,
     amount_limit: '0', // Let the SDK calculate it from slippage if we provide the second arg
-  }, {
-    byAmountIn: true,
-    slippage: Percentage.fromFraction(5, 100),
-    decimalsA,
-    decimalsB,
-    swapTicks: res.ticks,
-    currentPool: pool,
   });
 
   console.log('⏳ Executing swap...');

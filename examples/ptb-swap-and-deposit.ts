@@ -18,7 +18,7 @@ async function main() {
     // 1. Initial Setup
     const sdk = initCetusSDK({ network: 'mainnet' });
     const scallop = new Scallop({ networkType: 'mainnet', walletAddress: sender });
-    const txBuilder = await scallop.createTxBuilder();
+    const scallopBuilder = await scallop.createScallopBuilder();
 
     // 2. Cetus Swap (SUI -> USDC)
     // For simplicity, we assume we have the pool and route information
@@ -45,7 +45,7 @@ async function main() {
     });
 
     // 3. Scallop Deposit (USDC)
-    const scallopTxBlock = txBuilder.createTxBlock();
+    const scallopTxBlock = scallopBuilder.createTxBlock();
     // We can use the result of the Cetus swap directly in Scallop
     const marketCoin = scallopTxBlock.deposit(usdcCoin, 'usdc');
 

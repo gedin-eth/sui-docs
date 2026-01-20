@@ -27,7 +27,7 @@ async function main() {
         walletAddress: SENDER 
     });
     
-    const txBuilder = await scallop.createTxBuilder();
+    const scallopBuilder = await scallop.createScallopBuilder();
     const tx = new Transaction();
 
     // 2. Define Flash Loan Parameters
@@ -36,7 +36,7 @@ async function main() {
 
     // 3. Start Flash Loan
     // Scallop's borrowFlashLoan returns [borrowed_coin, loan_receipt]
-    const scallopTxBlock = txBuilder.createTxBlock();
+    const scallopTxBlock = scallopBuilder.createTxBlock();
     const [borrowedCoin, loanReceipt] = scallopTxBlock.borrowFlashLoan(LOAN_AMOUNT, ASSET);
 
     // 4. Execute Arbitrage Leg (e.g., Cetus Swap)

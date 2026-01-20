@@ -15,7 +15,18 @@ The repository is organized into several key areas to support full-stack DeFi de
 
 ![The Sui Developer Landscape](./assets/image-13708d02-63d2-4cd3-a02a-263bb787e953.png)
 
-## **Quick Start**
+## **Verification & Build Standard**
+
+All code examples in this repository are verified for:
+- **Type Safety**: Passed `tsc` with strict settings.
+- **SDK Compatibility**: Tested against the pinned versions in `package.json`.
+- **Mainnet Connectivity**: Verification scripts successfully query live Sui mainnet data.
+
+Run the environment doctor to verify your local setup:
+```bash
+npm install
+npm run doctor
+```
 
 ### **Verify Network Health**
 Run the core verification script to check network connectivity and CLI status:
