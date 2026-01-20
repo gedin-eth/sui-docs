@@ -81,5 +81,6 @@ Using the Sui CLI to interact with Cetus pools via PTBs.
 
 ### **Fetch Pool Balance**
 ```bash
-sui client object <POOL_ID>
+# Fetch SUI-USDC Pool on Mainnet
+sui client object 0xcf994611dc6f975f9b79757b20471da67007c3acb7d5a326c230
 ```

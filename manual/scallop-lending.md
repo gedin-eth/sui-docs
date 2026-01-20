@@ -79,6 +79,7 @@ Querying Scallop market data using JSON-RPC.
 
 ### **Get Market Objects**
 ```bash
+# Query Scallop Market on Mainnet
 curl --location --request POST 'https://fullnode.mainnet.sui.io:443' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -86,7 +87,7 @@ curl --location --request POST 'https://fullnode.mainnet.sui.io:443' \
   "id": 1,
   "method": "sui_getObject",
   "params": [
-    "<SCALLOP_MARKET_ID>",
+    "0xa757975255146dc9686aa823b7838b507f315d704f428cbadad2f4ea061939d9",
     {
       "showContent": true
     }

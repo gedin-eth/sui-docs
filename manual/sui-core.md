@@ -76,14 +76,15 @@ curl --location --request POST 'https://fullnode.devnet.sui.io:443' \
 
 ### **Query Object Details**
 ```bash
-curl --location --request POST 'https://fullnode.devnet.sui.io:443' \
+# Query the Scallop Market object on mainnet
+curl --location --request POST 'https://fullnode.mainnet.sui.io:443' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "jsonrpc": "2.0",
   "id": 1,
   "method": "sui_getObject",
   "params": [
-    "0x5",
+    "0xa757975255146dc9686aa823b7838b507f315d704f428cbadad2f4ea061939d9",
     {
       "showType": true,
       "showOwner": true,

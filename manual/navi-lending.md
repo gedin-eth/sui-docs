@@ -59,7 +59,12 @@ console.log('Borrow Balance:', lendingState.total_borrow);
 
 ---
 
-## **Oracle Price Feeds**
+## **Verification via CLI**
+
+### **Fetch SUI Pool on Mainnet**
+```bash
+sui client object 0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5
+```
 
 NAVI uses a multi-oracle system to ensure accurate pricing for collateral and debt.
 

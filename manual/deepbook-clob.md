@@ -92,7 +92,8 @@ public fun cancel_single_order<BaseAsset, QuoteAsset>(
 
 ### **Query Pool Details**
 ```bash
-sui client object <DEEPBOOK_POOL_ID>
+# Query DEEP-SUI Pool on Mainnet
+sui client object 0xb663828d6217467c8a1838a03793da896cbe745b150ebd57d82f814ca579fc22
 ```
 
 ### **Check Balance Manager**

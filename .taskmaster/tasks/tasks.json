@@ -60,13 +60,25 @@
         "priority": "medium",
         "subtasks": [],
         "updatedAt": "2026-01-20T20:48:32.548Z"
+      },
+      {
+        "id": "6",
+        "title": "Phase 6: Live Protocol Verification",
+        "description": "Execute and validate the verification scripts across core and DeFi protocols.",
+        "details": "Run verify-sui-core.sh, verify-signatures.sh, and verify-defi-protocols.sh. Resolve any object ID gaps.",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T20:54:21.813Z"
       }
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2026-01-20T20:48:32.549Z",
-      "taskCount": 5,
-      "completedCount": 5,
+      "lastModified": "2026-01-20T20:54:21.814Z",
+      "taskCount": 6,
+      "completedCount": 6,
       "tags": [
         "master"
       ]
