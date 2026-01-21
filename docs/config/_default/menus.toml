@@ -1,0 +1,12 @@
+# Navigation menus
+
+[[main]]
+  name = "Docs"
+  weight = 10
+  url = "/en/docs/"
+
+[[main]]
+  name = "GitHub"
+  weight = 100
+  url = "https://github.com/gedin-eth/sui-docs"
+  pre = "<i class='fab fa-github'></i>"

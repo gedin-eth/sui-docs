@@ -1,0 +1,35 @@
+// Custom styles for Sui Docs
+
+// Fix header overlap - add padding to account for fixed navbar
+.td-main {
+  padding-top: 4rem;
+}
+
+.td-content {
+  padding-top: 1rem;
+}
+
+// Fix docs page layout
+.td-outer {
+  margin-top: 60px;
+}
+
+// Ensure content doesn't get hidden under navbar
+main.td-main {
+  scroll-margin-top: 80px;
+}
+
+// Improve section headers in docs
+.td-content h1:first-child {
+  margin-top: 0;
+}
+
+// Better spacing for docs sidebar
+.td-sidebar {
+  padding-top: 1rem;
+}
+
+// Clean up the cover block on homepage
+.td-cover-block {
+  padding-top: 5rem;
+}

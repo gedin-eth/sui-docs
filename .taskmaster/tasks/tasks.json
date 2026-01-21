@@ -2,7 +2,7 @@
   "master": {
     "tasks": [
       {
-        "id": "1",
+        "id": 1,
         "title": "Phase 1: Core Sui Infrastructure",
         "description": "Research and document core Sui infrastructure (Sui, BCS, Fastcrypto, Narwhal).",
         "details": "Explore repositories, verify functionality with CLI/curl, and update sui-docs.",
@@ -14,7 +14,7 @@
         "updatedAt": "2026-01-20T20:45:47.124Z"
       },
       {
-        "id": "2",
+        "id": 2,
         "title": "Phase 3: Tools and Specialized SDKs",
         "description": "Research and document specialized tools and SDKs (Deepbookpy, Sui Butler, Sui DeFi Vault, Core-ts).",
         "details": "Explore repositories, verify functionality with CLI/curl, and update sui-docs.",
@@ -26,7 +26,7 @@
         "updatedAt": "2026-01-20T20:45:47.126Z"
       },
       {
-        "id": "3",
+        "id": 3,
         "title": "Phase 4: Community and Utility Projects",
         "description": "Research and document community projects (Memetic-LaunchPad, Cetus Volume Booster, GemWallet).",
         "details": "Explore repositories, verify functionality with CLI/curl, and update sui-docs.",
@@ -38,7 +38,7 @@
         "updatedAt": "2026-01-20T20:45:47.126Z"
       },
       {
-        "id": "4",
+        "id": 4,
         "title": "Phase 2: Major DeFi Protocols",
         "description": "Research and document major DeFi protocols (Scallop, Navi, Cetus, SeaProtocol, Legato Finance).",
         "details": "Explore repositories, verify functionality with CLI/curl, and update sui-docs.",
@@ -50,7 +50,7 @@
         "updatedAt": "2026-01-20T20:45:47.127Z"
       },
       {
-        "id": "5",
+        "id": 5,
         "title": "Phase 5: Practical Examples & ID Resolution",
         "description": "Add concrete code examples and resolve actual protocol Object IDs for verification scripts.",
         "details": "Populate /examples with TS/Move snippets and update /scripts with real addresses.",
@@ -62,7 +62,7 @@
         "updatedAt": "2026-01-20T20:48:32.548Z"
       },
       {
-        "id": "6",
+        "id": 6,
         "title": "Phase 6: Live Protocol Verification",
         "description": "Execute and validate the verification scripts across core and DeFi protocols.",
         "details": "Run verify-sui-core.sh, verify-signatures.sh, and verify-defi-protocols.sh. Resolve any object ID gaps.",
@@ -81,6 +81,157 @@
       "completedCount": 6,
       "tags": [
         "master"
+      ],
+      "created": "2026-01-20T21:54:56.554Z",
+      "description": "Tasks for master context"
+    }
+  },
+  "feature-monitoring-arb": {
+    "tasks": [
+      {
+        "id": "1",
+        "title": "Implement Common Monitoring Utilities",
+        "description": "Create shared utility functions for RPC connection and reporting to be used by both Scallop and Suilend monitoring scripts.",
+        "details": "1. Create `utils/monitoring_common.ts`.\n2. Initialize `SuiClient` connecting to Mainnet.\n3. Define a TypeScript interface `LiquidationCandidate` containing fields: `obligationId`, `owner`, `healthFactor`, `debtValue`, and `protocol`.\n4. Implement a logging utility to output identified candidates in a readable format.",
+        "testStrategy": "Create a simple test script that imports the client and successfully fetches the current epoch from the Sui network to verify connectivity.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T22:11:45.960Z"
+      },
+      {
+        "id": "2",
+        "title": "Develop Scallop Obligation Monitoring Script",
+        "description": "Implement the logic to query Scallop protocol obligations and identify accounts susceptible to liquidation.",
+        "details": "1. Create `scripts/monitor_scallop.ts`.\n2. Import Scallop SDK and `utils/monitoring_common.ts`.\n3. Use the SDK to query all obligations (paginate if necessary).\n4. Iterate through obligations and filter for `healthFactor < 1`.\n5. Output list of liquidatable obligations to console.",
+        "testStrategy": "Run `npx ts-node scripts/monitor_scallop.ts` and verify it runs without crashing. Mock an obligation with HF < 1 if none exist on mainnet to verify filtering logic.",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T23:45:57.666Z"
+      },
+      {
+        "id": "3",
+        "title": "Develop Suilend Obligation Monitoring Script",
+        "description": "Implement the logic to query Suilend protocol obligations and identify accounts susceptible to liquidation.",
+        "details": "1. Create `scripts/monitor_suilend.ts`.\n2. Import Suilend SDK and `utils/monitoring_common.ts`.\n3. Fetch Suilend reserves and obligations data.\n4. Calculate Health Factor using protocol-specific formulas exposed by SDK.\n5. Filter for `healthFactor < 1` and report.",
+        "testStrategy": "Run `npx ts-node scripts/monitor_suilend.ts` and verify execution. Compare output against Suilend frontend data for accuracy.",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-20T23:46:35.051Z"
+      },
+      {
+        "id": "4",
+        "title": "Verify and Document Curl Commands",
+        "description": "Test the provided list of 33 curl commands for Sui developers and document them.",
+        "details": "1. Create or update `manual/utility-tools.md`.\n2. Systematically execute each of the 33 curl commands against a public RPC node.\n3. Verify the JSON-RPC response is valid.\n4. Document the command syntax and expected output in the markdown file.",
+        "testStrategy": "Manual verification: Execute each command in terminal and ensure no errors are returned before adding to documentation.",
+        "priority": "medium",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-21T00:04:52.631Z"
+      },
+      {
+        "id": "5",
+        "title": "Update Token Registry Documentation",
+        "description": "Research recent asset launches on Sui and update the manual entry for the token registry.",
+        "details": "1. Analyze recent mainnet token launches (e.g., meme coins, new defi tokens).\n2. Update `manual/14-token-registry.md`.\n3. Add CoinType, Symbol, Decimals, and Icon URL for new verified assets.",
+        "testStrategy": "Review the rendered Markdown to ensure tables are formatted correctly and links are valid.",
+        "priority": "low",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-21T00:04:52.633Z"
+      },
+      {
+        "id": "6",
+        "title": "Cyclic Arbitrage: Pool Setup & Strategy Design",
+        "description": "Initialize the arbitrage script and define the pools for the SUI -> USDC -> CETUS -> SUI route.",
+        "details": "1. Create `examples/defi/cyclic_arbitrage.ts`.\n2. Define Pool Object IDs for:\n   - SUI/USDC (DeepBook or Cetus)\n   - USDC/CETUS (Cetus)\n   - CETUS/SUI (Cetus)\n3. Initialize Cetus SDK and DeepBook SDK instances within the script.",
+        "testStrategy": "Log the pool details (liquidity, current tick) to console to ensure correct Pool IDs and SDK initialization.",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-21T00:04:52.633Z"
+      },
+      {
+        "id": "7",
+        "title": "Cyclic Arbitrage: PTB Implementation",
+        "description": "Construct the Programmable Transaction Block (PTB) to execute the three-hop swap.",
+        "details": "1. In `examples/defi/cyclic_arbitrage.ts`, start a new TransactionBlock.\n2. Add inputs for the swap amount (e.g., 1 SUI).\n3. Step 1: Add command for SUI -> USDC swap (using DeepBook SDK).\n4. Step 2: Add command for USDC -> CETUS swap (using Cetus SDK).\n5. Step 3: Add command for CETUS -> SUI swap (using Cetus SDK).\n6. Ensure output of previous swap is passed as input to the next.",
+        "testStrategy": "Use TypeScript type checking to ensure argument types match SDK requirements for the PTB construction.",
+        "priority": "high",
+        "dependencies": [
+          "6"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-21T00:04:52.633Z"
+      },
+      {
+        "id": "8",
+        "title": "Cyclic Arbitrage: Dry-run Verification",
+        "description": "Execute the arbitrage PTB using devInspectTransactionBlock to verify logic without spending funds.",
+        "details": "1. Add execution logic to `examples/defi/cyclic_arbitrage.ts`.\n2. Use `client.devInspectTransactionBlock` with the constructed PTB.\n3. Parse the transaction effects to calculate net balance change.\n4. Log 'Profit' or 'Loss' based on the simulation results.",
+        "testStrategy": "Run `npx ts-node examples/defi/cyclic_arbitrage.ts`. Ensure the script completes and outputs the simulated balance changes.",
+        "priority": "high",
+        "dependencies": [
+          "7"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-21T00:04:52.634Z"
+      },
+      {
+        "id": "9",
+        "title": "Global Build Verification",
+        "description": "Ensure all TypeScript code in the repository adheres to type safety standards.",
+        "details": "1. Run `npx tsc --noEmit` from the root directory.\n2. Resolve any type errors arising from the new monitoring scripts or arbitrage examples.\n3. Ensure compatibility with the pinned SDK versions in `package.json`.",
+        "testStrategy": "The task is complete when `npx tsc` returns exit code 0 with no errors.",
+        "priority": "medium",
+        "dependencies": [
+          "2",
+          "3",
+          "8"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-21T00:04:52.634Z"
+      },
+      {
+        "id": "10",
+        "title": "Update Roadmap and Readme",
+        "description": "Finalize documentation by updating the README with completed milestones and usage instructions.",
+        "details": "1. Edit `README.md`.\n2. Check off the items for Monitoring Layer and Cyclic Arbitrage.\n3. Add a section 'Running the Examples' with commands like `npx ts-node scripts/monitor_scallop.ts`.",
+        "testStrategy": "Preview `README.md` to ensure formatting is correct and instructions are clear.",
+        "priority": "low",
+        "dependencies": [
+          "9"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-21T00:04:52.635Z"
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2026-01-21T00:04:52.635Z",
+      "taskCount": 10,
+      "completedCount": 10,
+      "tags": [
+        "feature-monitoring-arb"
       ]
     }
   }

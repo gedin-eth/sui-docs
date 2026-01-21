@@ -40,10 +40,9 @@ async function main() {
     // Returns [remainingDebtCoin, collateralCoin]
     const [remainingDebt, seizedCollateral] = stx.liquidate(
         OBLIGATION_ID,
-        DEBT_COIN,
         debtCoinObj,
-        COLLATERAL_COIN,
-        REPAY_AMOUNT
+        DEBT_COIN,
+        COLLATERAL_COIN
     );
 
     // 6. Swap Seized Collateral back to Debt Coin (Simplified)

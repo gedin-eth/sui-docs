@@ -1,0 +1,10 @@
+# Language configuration
+# Currently English only, structured for future multilingual support
+
+[en]
+  languageName = "English"
+  languageCode = "en-US"
+  weight = 1
+  title = "Sui Docs"
+  [en.params]
+    description = "Comprehensive developer documentation for the Sui blockchain ecosystem"

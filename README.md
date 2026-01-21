@@ -4,23 +4,110 @@ A comprehensive developer documentation and verification suite for the Sui block
 
 ![Sui: The Object-Centric Blockchain Ecosystem](./assets/image-032ea50f-9cf0-4b7d-aa83-bea8b8f6b5db.png)
 
-## **Project Structure**
+## Documentation Site
+
+This repository includes a Hugo-based documentation site using the Docsy theme. The site is automatically deployed to GitHub Pages on pushes to `main`.
+
+**Live Site**: [https://gedin-eth.github.io/sui-docs/](https://gedin-eth.github.io/sui-docs/)
+
+## Project Structure
 
 The repository is organized into several key areas to support full-stack DeFi development on Sui:
 
-- `/manual`: Detailed guides on protocol concepts, Move programming, and SDK usage.
-- `/examples`: Code snippets and implementation examples for various Sui projects.
-- `/scripts`: Bash and curl-based verification scripts for testing network health and protocol functionality.
-- `/config`: Configuration templates and environment settings.
+- `/docs`: Hugo documentation site (Docsy theme)
+  - `/docs/content/en/`: English documentation content
+  - `/docs/config/`: Hugo configuration files
+- `/manual`: Source documentation guides (migrated to Hugo site)
+- `/examples`: Code snippets and implementation examples
+- `/scripts`: Verification scripts for testing network health and protocol functionality
+- `/config`: Configuration templates and environment settings
 
 ![The Sui Developer Landscape](./assets/image-13708d02-63d2-4cd3-a02a-263bb787e953.png)
 
-## **Verification & Build Standard**
+## Local Development
+
+### Prerequisites
+
+- [Hugo Extended](https://gohugo.io/installation/) (v0.110.0 or later)
+- [Go](https://golang.org/doc/install) (v1.21 or later)
+- [Node.js](https://nodejs.org/) (v20.x for running verification scripts)
+
+### Quick Start
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/gedin-eth/sui-docs.git
+   cd sui-docs
+   ```
+
+2. **Install Hugo modules**:
+   ```bash
+   make install
+   ```
+
+3. **Start the development server**:
+   ```bash
+   make dev
+   ```
+
+4. **Open your browser** to [http://localhost:1313](http://localhost:1313)
+
+### Available Make Commands
+
+| Command | Description |
+|---------|-------------|
+| `make help` | Show available commands |
+| `make install` | Install Hugo modules and dependencies |
+| `make dev` | Start Hugo development server with live reload |
+| `make build` | Build the site for production (output in `docs/public/`) |
+| `make clean` | Remove build artifacts |
+| `make check` | Check Hugo and Go versions |
+
+### Manual Hugo Commands
+
+If you prefer not to use Make:
+
+```bash
+# Navigate to docs directory
+cd docs
+
+# Install modules
+hugo mod get -u ./...
+
+# Start development server
+hugo server --buildDrafts --buildFuture
+
+# Build for production
+hugo --minify --gc
+```
+
+## Deployment
+
+The site automatically deploys to GitHub Pages via GitHub Actions when changes are pushed to the `main` branch.
+
+### Manual Deployment
+
+1. Build the site:
+   ```bash
+   make build
+   ```
+
+2. The static site will be generated in `docs/public/`
+
+### GitHub Pages Setup
+
+To enable GitHub Pages deployment:
+
+1. Go to repository **Settings** > **Pages**
+2. Under "Build and deployment", select **GitHub Actions**
+3. The workflow will automatically deploy on pushes to `main`
+
+## Verification & Build Standard
 
 All code examples in this repository are verified for:
-- **Type Safety**: Passed `tsc` with strict settings.
-- **SDK Compatibility**: Tested against the pinned versions in `package.json`.
-- **Mainnet Connectivity**: Verification scripts successfully query live Sui mainnet data.
+- **Type Safety**: Passed `tsc` with strict settings
+- **SDK Compatibility**: Tested against the pinned versions in `package.json`
+- **Mainnet Connectivity**: Verification scripts successfully query live Sui mainnet data
 
 Run the environment doctor to verify your local setup:
 ```bash
@@ -28,50 +115,79 @@ npm install
 npm run doctor
 ```
 
-### **Verify Network Health**
+### Verify Network Health
 Run the core verification script to check network connectivity and CLI status:
 ```bash
 ./scripts/verify-sui-core.sh
 ```
 
-### **Advanced Examples**
+## Documentation Structure
+
+### Getting Started
+- [Overview](/docs/content/en/docs/getting-started/overview.md)
+- [Toolchain & Versioning](/docs/content/en/docs/getting-started/toolchain.md)
+- [Networks & RPCs](/docs/content/en/docs/getting-started/networks-rpc.md)
+- [Move Package System](/docs/content/en/docs/getting-started/move-packages.md)
+- [PTBs & Transactions](/docs/content/en/docs/getting-started/ptb-transactions.md)
+
+### DeFi Protocols
+- [Cetus CLMM DEX](/docs/content/en/docs/defi/cetus.md)
+- [DeepBook CLOB](/docs/content/en/docs/defi/deepbook.md)
+- [Scallop Lending](/docs/content/en/docs/defi/scallop.md)
+- [NAVI Protocol](/docs/content/en/docs/defi/navi.md)
+- [Suilend](/docs/content/en/docs/defi/suilend.md)
+- [Bucket Protocol](/docs/content/en/docs/defi/bucket.md)
+
+### Reference
+- [Liquidation Bots](/docs/content/en/docs/reference/liquidation-bots.md)
+- [Oracle Integration](/docs/content/en/docs/reference/oracle-integration.md)
+- [Troubleshooting](/docs/content/en/docs/reference/troubleshooting.md)
+- [Production Checklist](/docs/content/en/docs/reference/production-checklist.md)
+- [Token Registry](/docs/content/en/docs/reference/token-registry.md)
+
+## Advanced Examples
 - [Atomic Swap & Deposit](./examples/ptb-swap-and-deposit.ts)
 - [Flash Loan Arbitrage (Advanced)](./examples/ptb-flash-loan-arbitrage.ts)
 - [Scallop Liquidation](./examples/ptb-scallop-liquidation.ts)
 
-### **Ecosystem Manuals**
-- [Sui Core & CLI](./manual/sui-core.md)
-- [Liquidation Bots & Mechanics](./manual/10-liquidation-bots.md)
-- [Oracle Integration](./manual/13-oracle-integration.md)
-- [Scallop Lending](./manual/scallop-lending.md)
-- [Suilend Protocol](./manual/11-suilend.md)
-- [Bucket Protocol (CDP)](./manual/12-bucket-protocol.md)
-- [NAVI Lending](./manual/navi-lending.md)
-- [Common Coin Types](./manual/14-token-registry.md)
-
-### **Network Configuration**
+## Network Configuration
 Common protocol Object IDs are available in [config/network.json](./config/network.json).
 
-## **Ecosystem Coverage**
+## Ecosystem Coverage
 
-### **Phase 1: Core Infrastructure**
+### Phase 1: Core Infrastructure
 - [x] Sui Protocol & CLI
 - [x] Move Programming Language
 - [x] Fastcrypto & Signatures
 
-### **Phase 2: Major DeFi Protocols**
+### Phase 2: Major DeFi Protocols
 - [x] Scallop (Lending)
 - [x] Navi (Lending)
 - [x] Cetus (CLMM DEX)
 - [x] SeaProtocol (DEX Aggregator)
 - [x] Legato Finance (Prediction Markets)
 
-### **Phase 3: Tools and Specialized SDKs**
+### Phase 3: Tools and Specialized SDKs
 - [x] Deepbookpy
 - [x] Sui Butler (MCP/CLI)
 - [x] Sui DeFi Vault
 
-### **Phase 4: Community Projects**
+### Phase 4: Community Projects
 - [x] Memetic-LaunchPad
 - [x] Cetus Volume Booster
 - [x] GemWallet
+
+### Phase 5: Monitoring & Advanced Arbitrage
+- [x] Scallop Obligation Monitor (HF < 1)
+- [x] Suilend Obligation Monitor (HF < 1)
+- [x] Cyclic Arbitrage (Conceptual PTB)
+- [x] Verified Developer Curl One-Liners
+- [x] Token Registry Update (DEEP, NS, WAL, SCA)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+This project is open source. See the repository for license details.

@@ -1,0 +1,73 @@
+# Hugo configuration for Sui Docs
+# https://gohugo.io/getting-started/configuration/
+
+baseURL = "https://gedin-eth.github.io/sui-docs/"
+title = "Sui Docs"
+
+# Language settings
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
+# Enable Git info for "last modified" dates
+enableGitInfo = true
+
+# Theme
+theme = ["github.com/google/docsy"]
+
+# Markdown rendering
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.parser]
+      [markup.goldmark.parser.attribute]
+        block = true
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "monokai"
+    lineNos = false
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true
+    lineNoStart = 1
+    lineNumbersInTable = true
+    noClasses = false
+    tabWidth = 4
+
+# Sitemap settings
+[sitemap]
+  changefreq = "monthly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+# Taxonomies
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+# Output formats
+[outputs]
+  home = ["HTML"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]
+
+# Hugo module configuration
+[module]
+  proxy = "direct"
+  [module.hugoVersion]
+    extended = true
+    min = "0.110.0"
+  [[module.imports]]
+    path = "github.com/google/docsy"
+    disable = false
+
+# Security settings for Hugo Pipes
+[security]
+  enableInlineShortcodes = false
+  [security.exec]
+    allow = ['^(dart-)?sass(-embedded)?$', '^go$', '^git$', '^npx$', '^postcss$', '^babel$']
+    osEnv = ['(?i)^(PATH|PATHEXT|APPDATA|TMP|TEMP|TERM|GO\w+|HUGO_)$']
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$']
+  [security.http]
+    methods = ['(?i)GET|POST']
+    urls = ['.*']

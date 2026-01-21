@@ -6,8 +6,14 @@ async function main() {
   console.log('Fetching pools...');
   const pools = await sdk.Pool.getPools();
   
-  pools.slice(0, 20).forEach(p => {
-    console.log(`Pool: ${p.poolAddress}, Coins: ${p.coinTypeA} / ${p.coinTypeB}`);
+  const cetusPools = pools.filter(p => 
+    p.coinTypeA.toLowerCase().includes('cetus') ||
+    p.coinTypeB.toLowerCase().includes('cetus')
+  );
+
+  console.log(`Found ${cetusPools.length} pools with CETUS.`);
+  cetusPools.forEach(p => {
+    console.log(`Pool: ${p.poolAddress}, A: ${p.coinTypeA}, B: ${p.coinTypeB}`);
   });
 }
 

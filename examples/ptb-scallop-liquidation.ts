@@ -1,7 +1,7 @@
 import { Transaction } from '@mysten/sui/transactions';
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client';
 import { Scallop } from '@scallop-io/sui-scallop-sdk';
-import { getKeypair } from '../../scripts/auth';
+import { getKeypair } from '../scripts/auth';
 
 /**
  * @file ptb-scallop-liquidation.ts
@@ -46,10 +46,9 @@ async function main() {
     // The SDK's stx.liquidate helper abstracts the Move call.
     const [remainingDebt, seizedCollateral] = stx.liquidate(
         OBLIGATION_ID,
-        DEBT_COIN,
         debtCoinObj,
-        COLLATERAL_COIN,
-        REPAY_AMOUNT
+        DEBT_COIN,
+        COLLATERAL_COIN
     );
 
     /**

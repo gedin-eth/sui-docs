@@ -1,0 +1,79 @@
+# Docsy theme parameters
+# https://www.docsy.dev/docs/getting-started/
+
+# GitHub repository information
+github_repo = "https://github.com/gedin-eth/sui-docs"
+github_branch = "main"
+github_subdir = "docs"
+
+# Google Custom Search Engine ID (leave empty to use Lunr.js local search)
+# gcs_engine_id = ""
+
+# Enable Algolia DocSearch (leave empty to use Lunr.js)
+# algolia_docsearch = false
+
+# Enable local search with Lunr.js
+offlineSearch = true
+offlineSearchMaxResults = 25
+offlineSearchSummaryLength = 200
+
+# User interface configuration
+[ui]
+  # Enable sidebar search
+  sidebar_search_disable = false
+  # Enable/disable the breadcrumb navigation
+  breadcrumb_disable = false
+  # Enable/disable the taxonomy pages
+  taxonomy_breadcrumb_disable = false
+  # Show reading time in pages
+  showReadingTime = true
+  # Enable dark mode toggle
+  showLightDarkModeMenu = true
+  # Set the order of the navbar menus
+  # navbar_logo = true
+  navbar_translucent_over_cover_disable = false
+  # Enable footer "about" section
+  footer_about_enable = true
+
+  [ui.feedback]
+    enable = true
+    yes = 'Was this page helpful?'
+    no = 'Let us know how we can improve.'
+
+  [ui.readingtime]
+    enable = true
+
+# Links - These appear in the top-right of the navbar
+[[params.links.user]]
+  name = "GitHub Discussions"
+  url = "https://github.com/gedin-eth/sui-docs/discussions"
+  icon = "fab fa-github"
+  desc = "Ask questions and share feedback"
+
+[[params.links.developer]]
+  name = "GitHub"
+  url = "https://github.com/gedin-eth/sui-docs"
+  icon = "fab fa-github"
+  desc = "Development takes place here"
+
+# Versioning
+# version_menu = "Releases"
+# version = "0.1"
+# archived_version = false
+# url_latest_version = "https://gedin-eth.github.io/sui-docs/"
+
+# Copyright
+copyright = "Sui Docs Contributors"
+
+# Privacy settings
+[privacy]
+  [privacy.googleAnalytics]
+    respectDoNotTrack = true
+
+# Print support
+print = {disable_toc = false}
+
+# Social media links for the footer
+# [social]
+#   twitter = "your-twitter"
+#   github = "gedin-eth/sui-docs"

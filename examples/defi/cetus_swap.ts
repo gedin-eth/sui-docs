@@ -5,12 +5,12 @@
 
 import { CetusClmmSDK, initMainnetSDK, Percentage } from '@cetusprotocol/cetus-sui-clmm-sdk';
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client';
-import { getKeypair } from '../../scripts/auth';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 
 async function main() {
   console.log('🐋 Cetus Mainnet Execution: Swapping SUI for USDC...');
 
-  const keypair = getKeypair();
+  const keypair = new Ed25519Keypair(); // Dummy keypair
   const client = new SuiClient({ url: getFullnodeUrl('mainnet') });
   
   const sdk = initMainnetSDK(getFullnodeUrl('mainnet'));
@@ -26,27 +26,10 @@ async function main() {
   console.log('⏳ Building swap transaction...');
   
   // SUI decimals is 9. We need BREW decimals.
-  // For testing, let's assume 9, but we should fetch it.
   const coinAInfo = await sdk.fullClient.getCoinMetadata({ coinType: pool.coinTypeA });
   const decimalsA = coinAInfo?.decimals ?? 9;
   const decimalsB = 9; // SUI
 
-  // 1. Pre-swap to get amount limit
-  const res = await sdk.Swap.preswap({
-    pool,
-    currentSqrtPrice: pool.current_sqrt_price,
-    coinTypeA: pool.coinTypeA,
-    coinTypeB: pool.coinTypeB,
-    decimalsA,
-    decimalsB,
-    amount: amountIn.toString(),
-    byAmountIn: true,
-    a2b: false,
-  });
-
-  const slippage = 0.05;
-  const amountLimit = res.estimatedAmountOut; // Simplified for now
-  
   const txPayload = await sdk.Swap.createSwapTransactionPayload({
     pool_id: pool.poolAddress,
     coinTypeA: pool.coinTypeA,
@@ -54,8 +37,10 @@ async function main() {
     a2b: false,
     amount: amountIn.toString(),
     by_amount_in: true,
-    amount_limit: '0', // Let the SDK calculate it from slippage if we provide the second arg
+    amount_limit: '0',
   });
+
+  console.log('Transaction Commands:', JSON.stringify(txPayload.getData().commands, null, 2));
 
   console.log('⏳ Executing swap...');
   try {
