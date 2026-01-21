@@ -11,8 +11,8 @@ defaultContentLanguageInSubdir = false
 # Enable Git info for "last modified" dates
 enableGitInfo = true
 
-# Theme
-theme = ["github.com/google/docsy"]
+# Theme (using module import instead - see [module.imports] below)
+# theme = ["github.com/google/docsy"]
 
 # Markdown rendering
 [markup]
