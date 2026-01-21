@@ -35,15 +35,25 @@ window.markmap = {
   {{ $jsSearch = resources.Get "js/offline-search.js" -}}
 {{ end -}}
 
-{{/* Build slice carefully to avoid type issues with append */}}
-{{ $jsResources := slice -}}
-{{ if $jsBs }}{{ $jsResources = $jsResources | append $jsBs }}{{ end -}}
-{{ if $jsBase }}{{ $jsResources = $jsResources | append $jsBase }}{{ end -}}
-{{ if $jsSearch }}{{ $jsResources = $jsResources | append $jsSearch }}{{ end -}}
-{{ if $jsPlantuml }}{{ $jsResources = $jsResources | append $jsPlantuml }}{{ end -}}
-{{ if $jsMarkmap }}{{ $jsResources = $jsResources | append $jsMarkmap }}{{ end -}}
-{{ if $jsDrawio }}{{ $jsResources = $jsResources | append $jsDrawio }}{{ end -}}
-{{ $jsArray := $jsResources -}}
+{{/* Build slice by initializing with first resource to ensure proper type */}}
+{{ $jsArray := slice -}}
+{{ if $jsBs -}}
+  {{ $jsArray = slice $jsBs -}}
+  {{ if $jsBase }}{{ $jsArray = $jsArray | append $jsBase }}{{ end -}}
+  {{ if $jsSearch }}{{ $jsArray = $jsArray | append $jsSearch }}{{ end -}}
+  {{ if $jsPlantuml }}{{ $jsArray = $jsArray | append $jsPlantuml }}{{ end -}}
+  {{ if $jsMarkmap }}{{ $jsArray = $jsArray | append $jsMarkmap }}{{ end -}}
+  {{ if $jsDrawio }}{{ $jsArray = $jsArray | append $jsDrawio }}{{ end -}}
+{{ else if $jsBase -}}
+  {{ $jsArray = slice $jsBase -}}
+  {{ if $jsSearch }}{{ $jsArray = $jsArray | append $jsSearch }}{{ end -}}
+  {{ if $jsPlantuml }}{{ $jsArray = $jsArray | append $jsPlantuml }}{{ end -}}
+  {{ if $jsMarkmap }}{{ $jsArray = $jsArray | append $jsMarkmap }}{{ end -}}
+  {{ if $jsDrawio }}{{ $jsArray = $jsArray | append $jsDrawio }}{{ end -}}
+{{ else -}}
+  {{/* Fallback: build slice with all available resources */}}
+  {{ $jsArray = slice $jsBs $jsBase $jsSearch $jsPlantuml $jsMarkmap $jsDrawio -}}
+{{ end -}}
 
 {{ if .Page.Store.Get "hasmermaid" -}}
   {{ partial "scripts/mermaid.html" . -}}
@@ -68,8 +78,8 @@ window.markmap = {
   {{ end -}}
 {{ end -}}
 
-{{/* Filter out any nil values and ensure proper type before concat */}}
-{{ $jsArray = $jsArray | where . "ne" nil -}}
+{{/* Filter out nil values before concat */}}
+{{ $jsArray = where $jsArray "ne" nil -}}
 {{ if gt (len $jsArray) 0 -}}
   {{ $js := $jsArray | resources.Concat "js/main.js" -}}
   {{ if hugo.IsProduction -}}
