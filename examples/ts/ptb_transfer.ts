@@ -27,7 +27,8 @@ async function runPTBTransfer() {
   const [coin] = tx.splitCoins(tx.gas, [amount]);
 
   // Pattern: Transfer the newly created coin to a recipient
-  const recipient = '0x780c7901e1bc057cb8eb626bda9f0b1fc8339685fbdab52018565ed78747f756';
+  // Replace with your recipient address
+  const recipient = '0x0000000000000000000000000000000000000000000000000000000000000000'; // Replace with actual recipient
   tx.transferObjects([coin], recipient);
 
   // Set budget (MIST)

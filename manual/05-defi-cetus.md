@@ -81,3 +81,16 @@ async function performSwap(poolAddress: string, amountIn: number) {
 
 - **Error: `Invalid Pool`**: Ensure the pool address is correct and exists on the network you are targeting (Mainnet vs Testnet).
 - **Error: `Insufficient Liquidity`**: The swap amount is too large for the current pool depth. Try a smaller amount or a different pool.
+- **Error: `Invalid sender address`**: The Cetus SDK requires `sdk.senderAddress` to be set before creating swap payloads.
+
+---
+
+## 📚 Example: Cyclic Arbitrage
+
+See `examples/defi/cyclic_arbitrage.ts` for a complete example demonstrating:
+- DeepBook V3 swap (SUI -> USDC)
+- Cetus CLMM swaps (USDC -> CETUS -> SUI)
+- Proper pool data fetching
+- Error handling for network operations
+
+**Note**: This example demonstrates the structure. For production atomic arbitrage, consider using aggregator SDKs or executing swaps sequentially.

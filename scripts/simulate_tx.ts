@@ -39,14 +39,15 @@ async function main() {
 
   // 3. Dry Run
   console.log('⏳ Building transaction bytes...');
-  // Use the active address from the CLI as the sender for the simulation
-  const ACTIVE_ADDRESS = '0x46cd2ecc3a6fed2508b0c3e1836e706bfa355d7f0052ab84bee09ec9985bad39';
-  stx.txBlock.setSender(ACTIVE_ADDRESS);
-  stx.txBlock.setGasPayment([{
-      objectId: '0xc233755c882f70bb23bb116170a3e75598230ef299a89c35593b70c005405399',
-      version: 758836842,
-      digest: 'A2G5J7o697nqQbi3DWBDUKj1acmpG53DNuouajTSscKq',
-  }]);
+  // Use the keypair's address as the sender for the simulation
+  // In production, replace with your actual address and gas coin object
+  stx.txBlock.setSender(address);
+  // Note: For dry-run, gas payment is optional. In production, provide actual gas coin object:
+  // stx.txBlock.setGasPayment([{
+  //     objectId: '0x...', // Replace with actual gas coin object ID
+  //     version: 0, // Replace with actual version
+  //     digest: '...', // Replace with actual digest
+  // }]);
   
   const txBytes = await stx.txBlock.build({ client });
 

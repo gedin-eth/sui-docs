@@ -70,3 +70,54 @@ const [remainingDebt, seizedCollateral] = tx.moveCall({
 // Transfer seized collateral to your wallet or swap it
 tx.transferObjects([seizedCollateral], tx.pure.address(MY_ADDRESS));
 ```
+
+---
+
+## **Liquidation Bridge Script**
+
+We provide a bridge script (`scripts/liquidator_bridge.ts`) that combines monitoring and simulation:
+
+1. **Monitors** Scallop obligations to find positions with HF < 1
+2. **Simulates** liquidation PTBs using `devInspectTransactionBlock`
+3. **Calculates** estimated profit after accounting for flash loan fees (0.09%)
+
+### Usage
+
+```typescript
+// The script automatically:
+// - Scans recent borrow events
+// - Queries obligation health factors
+// - Simulates liquidations for unhealthy positions
+// - Reports estimated profitability
+
+// Run with:
+// tsx scripts/liquidator_bridge.ts
+```
+
+### Profit Calculation
+
+The script estimates profit using:
+- **Liquidation Bonus**: 5% of repaid amount (typical Scallop bonus)
+- **Flash Loan Fee**: 0.09% (9 basis points)
+- **Net Profit**: `(repayAmount × 0.05) - (repayAmount × 0.0009)`
+
+**Note**: For production, parse BCS-encoded return values from simulation results to get exact coin amounts.
+
+### Running the Script
+
+```bash
+# Ensure scripts/auth.ts exists with getKeypair() export
+tsx scripts/liquidator_bridge.ts
+```
+
+The script will:
+1. Scan recent borrow events to find active obligations
+2. Query each obligation's health factor
+3. Simulate liquidations for positions with HF < 1
+4. Report estimated profitability after flash loan fees
+
+---
+
+## **Example: Complete Liquidation PTB**
+
+See `examples/ptb-scallop-liquidation.ts` for a complete liquidation flow implementation using the Scallop SDK.

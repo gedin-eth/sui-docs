@@ -88,6 +88,47 @@ public fun cancel_single_order<BaseAsset, QuoteAsset>(
 
 ---
 
+## **Swap Implementation (PTB)**
+
+For swapping in a Programmable Transaction Block, use `swap_exact_base_for_quote`:
+
+```typescript
+import { Transaction } from '@mysten/sui/transactions';
+
+const DEEPBOOK_PACKAGE = '0xb29d83c2bcefe45ce0ef7357a94568c88610bac9f6d59b43cc67a8b52672533e';
+
+const tx = new Transaction();
+
+// Create zero coin for quote side
+const zeroQuote = tx.moveCall({
+  target: '0x2::coin::zero',
+  typeArguments: [QUOTE_COIN_TYPE],
+});
+
+// Swap returns: (Coin<Base>, Coin<Quote>, Coin<DEEP>)
+const [baseCoinOut, quoteCoinOut, deepCoin] = tx.moveCall({
+  target: `${DEEPBOOK_PACKAGE}::clob_v2::swap_exact_base_for_quote`,
+  arguments: [
+    tx.object(POOL_ID),
+    tx.pure.u64(0), // client_order_id
+    tx.object(ACCOUNT_CAP_ID), // ⚠️ Required: AccountCap from custodian
+    tx.pure.u64(quantity),
+    baseCoin,
+    zeroQuote,
+    tx.object('0x6'), // clock
+  ],
+  typeArguments: [BASE_COIN_TYPE, QUOTE_COIN_TYPE],
+});
+```
+
+**Important**: You must obtain an `AccountCap` from the DeepBook custodian module before executing swaps. See the DeepBook documentation for account setup.
+
+**Example Location**: `examples/defi/cyclic_arbitrage.ts` (Leg 1: SUI -> USDC)
+
+**Note**: The example demonstrates the correct function signature and tuple destructuring. In production, you'll need a valid AccountCap object ID to replace the placeholder.
+
+---
+
 ## **Verification via CLI**
 
 ### **Query Pool Details**

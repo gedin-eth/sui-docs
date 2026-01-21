@@ -1,15 +1,23 @@
 /**
  * @file cyclic_arbitrage.ts
  * @description Cyclic Arbitrage Example: SUI -> USDC -> CETUS -> SUI.
- *              Uses Cetus CLMM and DeepBook V3.
+ *              Uses Cetus CLMM SDK and DeepBook V3.
+ * 
+ * NOTE: This is a conceptual example. For production:
+ * - DeepBook requires an AccountCap (obtain from custodian module)
+ * - Cetus swaps are built using SDK and merged into PTB
+ * - Always fetch real-time quotes and handle slippage
  */
 
 import { Transaction } from '@mysten/sui/transactions';
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client';
+import { initMainnetSDK } from '@cetusprotocol/cetus-sui-clmm-sdk';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 
 // Protocol Configuration
-const DEEPBOOK_PACKAGE = '0x2c8d603bc51326b8c13cef9dd07031a408a48dddb541963357661df5d3204809';
-const CETUS_INTEGRATE_PACKAGE = '0xb2db7142fa83210a7d78d9c12ac49c043b3cbbd482224fea6e3da00aa5a5ae2d';
+// DeepBook V3 Mainnet Package ID
+const DEEPBOOK_PACKAGE = '0xb29d83c2bcefe45ce0ef7357a94568c88610bac9f6d59b43cc67a8b52672533e';
+// Cetus Global Config
 const CETUS_CONFIG = '0xdaa46292044c423a13e4d058bf8099b9d1f39221995b0cf3510c296245da03b4';
 
 // Pool IDs
@@ -24,57 +32,198 @@ const CETUS = '0x06864a6f921804860930db6ddbe2e16acdf8504495ea7481637a1c8b9a8fe54
 
 async function main() {
   console.log('🔄 Initializing Cyclic Arbitrage: SUI -> USDC -> CETUS -> SUI');
+  console.log('⚠️  This is a conceptual template. See notes below for production requirements.\n');
 
-  const client = new SuiClient({ url: getFullnodeUrl('mainnet') });
-  const tx = new Transaction();
-  const amountIn = 1_000_000_000; // 1 SUI
+  try {
+    const client = new SuiClient({ url: getFullnodeUrl('mainnet') });
+    const tx = new Transaction();
+    const amountIn = 1_000_000_000; // 1 SUI
 
   // Split input SUI from gas
   const [suiCoin] = tx.splitCoins(tx.gas, [amountIn]);
 
+  // ============================================================================
   // Leg 1: SUI -> USDC (DeepBook V3)
+  // ============================================================================
   console.log('Step 1: SUI -> USDC (DeepBook V3)...');
-  // Note: DeepBook V3 swap returns (base_coin, quote_coin, deep_coin)
-  const swap1 = tx.moveCall({
-    target: `${DEEPBOOK_PACKAGE}::pool::swap_exact_base_for_quote`,
+  console.log('  ⚠️  Requires AccountCap - obtain from DeepBook custodian module');
+  
+  // DeepBook V3 function signature:
+  // swap_exact_base_for_quote<Base, Quote>(
+  //   pool: &mut Pool<Base, Quote>,
+  //   client_order_id: u64,
+  //   account_cap: &AccountCap,
+  //   quantity: u64,
+  //   base_coin: Coin<Base>,
+  //   quote_coin: Coin<Quote>,
+  //   clock: &Clock,
+  //   ctx: &mut TxContext
+  // ) -> (Coin<Base>, Coin<Quote>, Coin<DEEP>)
+  
+  const zeroUsdc = tx.moveCall({
+    target: '0x2::coin::zero',
+    typeArguments: [USDC],
+  });
+
+  // DeepBook swap returns tuple: (Coin<Base>, Coin<Quote>, Coin<DEEP>)
+  const [baseCoinOut, usdcCoin, deepCoin] = tx.moveCall({
+    target: `${DEEPBOOK_PACKAGE}::clob_v2::swap_exact_base_for_quote`,
     arguments: [
       tx.object(POOL_SUI_USDC_DEEPBOOK),
+      tx.pure.u64(0), // client_order_id
+      tx.object('0x...'), // account_cap - REPLACE WITH ACTUAL ACCOUNT_CAP_ID
+      tx.pure.u64(amountIn), // quantity
       suiCoin,
-      tx.pure.u64(0), // min_out
+      zeroUsdc,
       tx.object('0x6'), // clock
     ],
     typeArguments: [SUI, USDC],
   });
-  const usdcCoin = swap1[1];
+  // Note: baseCoinOut contains any remaining base coin, deepCoin is the fee token
 
-  // Leg 2: USDC -> CETUS (Cetus)
-  console.log('Step 2: USDC -> CETUS (Cetus)...');
-  // We use pool_script_v2::swap_a2b which is an entry-like function but can be used in PTB
-  // It takes (config, pool, coin_a, coin_b, a2b, amount, by_amount_in, sqrt_price_limit, clock)
-  const zeroCetus = tx.moveCall({
+  // ============================================================================
+  // Leg 2: USDC -> CETUS (Cetus CLMM)
+  // ============================================================================
+  console.log('Step 2: USDC -> CETUS (Cetus CLMM)...');
+  console.log('  ⚠️  Cetus SDK creates separate Transaction objects');
+  console.log('  ℹ️  For true atomic arbitrage, consider using an aggregator SDK');
+  console.log('  ℹ️  Or execute swaps sequentially with proper coin management\n');
+  
+  // Initialize Cetus SDK
+  const cetusSDK = initMainnetSDK(getFullnodeUrl('mainnet'));
+  // Cetus SDK requires a sender address - use a placeholder for this example
+  const dummyKeypair = new Ed25519Keypair();
+  cetusSDK.senderAddress = dummyKeypair.toSuiAddress();
+  
+  // Fetch pool data first (required by SDK)
+  console.log('  ⏳ Fetching Cetus pool data...');
+  let poolUsdcCetus;
+  try {
+    poolUsdcCetus = await cetusSDK.Pool.getPool(POOL_USDC_CETUS);
+    console.log('  ✅ Pool data fetched');
+  } catch (error: any) {
+    console.error('  ❌ Failed to fetch pool data:', error.message);
+    throw new Error(`Cannot fetch Cetus pool ${POOL_USDC_CETUS}: ${error.message}`);
+  }
+  
+  // Build Cetus swap transaction using SDK
+  // NOTE: The SDK's createSwapTransactionPayload returns a complete Transaction
+  // object. To chain swaps in a single PTB, you would need to:
+  // 1. Extract the Move call commands from the SDK transaction
+  // 2. Manually map input/output coin references
+  // 3. Handle coin merging and splitting correctly
+  //
+  // This is complex and error-prone. For production, consider:
+  // - Using an aggregator SDK (e.g., Bluefin, Turbos aggregator)
+  // - Executing swaps sequentially (less gas efficient but simpler)
+  // - Using protocol-specific adapter functions if available
+  
+  console.log('  ⏳ Building Cetus swap transaction payload...');
+  let cetusSwapPayload;
+  try {
+    cetusSwapPayload = await cetusSDK.Swap.createSwapTransactionPayload({
+      pool_id: poolUsdcCetus.poolAddress,
+      coinTypeA: poolUsdcCetus.coinTypeA,
+      coinTypeB: poolUsdcCetus.coinTypeB,
+      a2b: true, // USDC -> CETUS
+      amount: '0', // Would use all of usdcCoin in real implementation
+      by_amount_in: true,
+      amount_limit: '0',
+    });
+    console.log('  ✅ Cetus swap payload created');
+  } catch (error: any) {
+    console.error('  ❌ Failed to create swap payload:', error.message);
+    throw new Error(`Cannot create Cetus swap payload: ${error.message}`);
+  }
+
+  // For this conceptual example, we'll note that the swap would happen here
+  // In a real implementation, you'd need to properly integrate the SDK's
+  // transaction commands into this PTB, which requires careful reference mapping
+  
+  // Placeholder: In production, extract CETUS coin from swap result
+  // The actual implementation would parse the swap output or use the SDK's
+  // result handling to get the output coin
+  const cetusCoin = tx.moveCall({
     target: '0x2::coin::zero',
     typeArguments: [CETUS],
   });
-  tx.moveCall({
-    target: `${CETUS_INTEGRATE_PACKAGE}::pool_script_v2::swap_a2b`,
-    arguments: [
-      tx.object(CETUS_CONFIG),
-      tx.object(POOL_USDC_CETUS),
-      usdcCoin, // coin_a
-      zeroCetus, // coin_b (empty)
-      tx.pure.bool(true), // a2b
-      tx.pure.u64(0), // amount (0 means use all of coin_a)
-      tx.pure.bool(true), // by_amount_in
-      tx.pure.u128('4295048016'), // sqrt_price_limit
-      tx.object('0x6'), // clock
-    ],
-    typeArguments: [USDC, CETUS],
-  });
-  // Since pool_script_v2::swap_a2b is an entry function, it doesn't return the coin.
-  // This approach is difficult for chaining. 
+
+  // ============================================================================
+  // Leg 3: CETUS -> SUI (Cetus CLMM)
+  // ============================================================================
+  console.log('Step 3: CETUS -> SUI (Cetus CLMM)...');
+  console.log('  ℹ️  Similar approach as Leg 2\n');
   
-  console.log('⚠️ Cyclic arbitrage script implemented as a conceptual template.');
-  console.log('To execute real-time arbitrage, use protocol-specific SDKs to fetch quotes and build optimized PTBs.');
+  console.log('  ⏳ Fetching Cetus pool data...');
+  let poolCetusSui;
+  try {
+    poolCetusSui = await cetusSDK.Pool.getPool(POOL_CETUS_SUI);
+    console.log('  ✅ Pool data fetched');
+  } catch (error: any) {
+    console.error('  ❌ Failed to fetch pool data:', error.message);
+    throw new Error(`Cannot fetch Cetus pool ${POOL_CETUS_SUI}: ${error.message}`);
+  }
+  
+  console.log('  ⏳ Building Cetus swap transaction payload...');
+  let cetusToSuiSwapPayload;
+  try {
+    cetusToSuiSwapPayload = await cetusSDK.Swap.createSwapTransactionPayload({
+      pool_id: poolCetusSui.poolAddress,
+      coinTypeA: poolCetusSui.coinTypeA,
+      coinTypeB: poolCetusSui.coinTypeB,
+      a2b: true, // CETUS -> SUI
+      amount: '0', // Would use all of cetusCoin
+      by_amount_in: true,
+      amount_limit: '0',
+    });
+    console.log('  ✅ Cetus swap payload created');
+  } catch (error: any) {
+    console.error('  ❌ Failed to create swap payload:', error.message);
+    throw new Error(`Cannot create Cetus swap payload: ${error.message}`);
+  }
+
+  // Placeholder: In production, extract SUI coin from swap result
+  const finalSuiCoin = tx.moveCall({
+    target: '0x2::coin::zero',
+    typeArguments: [SUI],
+  });
+
+  // Transfer final SUI back to sender
+  // Note: In production, use actual sender address
+  const senderAddress = dummyKeypair.toSuiAddress();
+  tx.transferObjects([finalSuiCoin], tx.pure.address(senderAddress));
+
+  // ============================================================================
+  // Production Notes
+  // ============================================================================
+  console.log('\n📋 PRODUCTION REQUIREMENTS:');
+  console.log('  1. DeepBook AccountCap: Obtain from DeepBook custodian module');
+  console.log('  2. Coin Chaining: Properly merge coins between swaps');
+  console.log('  3. Real-time Quotes: Fetch quotes before building PTB');
+  console.log('  4. Slippage Protection: Set appropriate amount_limit values');
+  console.log('  5. Gas Budget: Set explicit gas budget with tx.setGasBudget()');
+  console.log('  6. Testing: Always test with dry-run before mainnet execution');
+    console.log('\n💡 For a working implementation, consider:');
+    console.log('  - Using protocol SDKs for each swap separately');
+    console.log('  - Building and executing swaps sequentially');
+    console.log('  - Using an aggregator SDK that handles multi-hop swaps');
+    
+    console.log('\n✅ Cyclic arbitrage structure completed successfully.');
+  } catch (error: any) {
+    console.error('\n❌ Error during cyclic arbitrage setup:');
+    if (error.message) {
+      console.error(`   ${error.message}`);
+    } else {
+      console.error('   Unknown error occurred');
+    }
+    if (error.stack) {
+      console.error('\nStack trace:', error.stack);
+    }
+    process.exit(1);
+  }
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error('❌ Fatal error:', error);
+  process.exit(1);
+});
