@@ -35,8 +35,15 @@ window.markmap = {
   {{ $jsSearch = resources.Get "js/offline-search.js" -}}
 {{ end -}}
 
-{{/* Fix: Use slice to ensure proper type, then append resources individually */}}
-{{ $jsArray := slice $jsBs $jsBase $jsSearch $jsPlantuml $jsMarkmap $jsDrawio -}}
+{{/* Build slice carefully to avoid type issues with append */}}
+{{ $jsResources := slice -}}
+{{ if $jsBs }}{{ $jsResources = $jsResources | append $jsBs }}{{ end -}}
+{{ if $jsBase }}{{ $jsResources = $jsResources | append $jsBase }}{{ end -}}
+{{ if $jsSearch }}{{ $jsResources = $jsResources | append $jsSearch }}{{ end -}}
+{{ if $jsPlantuml }}{{ $jsResources = $jsResources | append $jsPlantuml }}{{ end -}}
+{{ if $jsMarkmap }}{{ $jsResources = $jsResources | append $jsMarkmap }}{{ end -}}
+{{ if $jsDrawio }}{{ $jsResources = $jsResources | append $jsDrawio }}{{ end -}}
+{{ $jsArray := $jsResources -}}
 
 {{ if .Page.Store.Get "hasmermaid" -}}
   {{ partial "scripts/mermaid.html" . -}}
@@ -61,13 +68,16 @@ window.markmap = {
   {{ end -}}
 {{ end -}}
 
-{{/* Ensure jsArray is properly typed before concat */}}
-{{ $js := $jsArray | resources.Concat "js/main.js" -}}
-{{ if hugo.IsProduction -}}
-  {{ $js = $js | minify | fingerprint -}}
-  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
-{{ else -}}
-  <script src="{{ $js.RelPermalink }}"></script>
+{{/* Filter out any nil values and ensure proper type before concat */}}
+{{ $jsArray = $jsArray | where . "ne" nil -}}
+{{ if gt (len $jsArray) 0 -}}
+  {{ $js := $jsArray | resources.Concat "js/main.js" -}}
+  {{ if hugo.IsProduction -}}
+    {{ $js = $js | minify | fingerprint -}}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+  {{ else -}}
+    <script src="{{ $js.RelPermalink }}"></script>
+  {{ end -}}
 {{ end -}}
 
 {{ if .Site.Params.prism_syntax_highlighting -}}
