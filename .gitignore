@@ -17,6 +17,7 @@ node_modules/
 .vscode
 .cursor
 .taskmaster
+.claude
 *.suo
 *.ntvs*
 *.njsproj
