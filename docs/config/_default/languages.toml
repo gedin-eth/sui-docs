@@ -6,5 +6,6 @@
   languageCode = "en-US"
   weight = 1
   title = "Sui Docs"
+  contentDir = "content/en"
   [en.params]
     description = "Comprehensive developer documentation for the Sui blockchain ecosystem"

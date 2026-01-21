@@ -3,7 +3,7 @@
 [[main]]
   name = "Docs"
   weight = 10
-  url = "/docs/"
+  url = "/en/docs/"
 
 [[main]]
   name = "GitHub"
