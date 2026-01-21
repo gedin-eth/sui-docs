@@ -3,7 +3,7 @@
 [[main]]
   name = "Docs"
   weight = 10
-  url = "/en/docs/"
+  url = "/sui-docs/docs/"
 
 [[main]]
   name = "GitHub"

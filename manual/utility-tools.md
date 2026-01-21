@@ -95,12 +95,12 @@ curl -s -X POST https://fullnode.mainnet.sui.io:443 -H "Content-Type: applicatio
 
 11. **Fetch latest Pyth price for SUI**
 ```bash
-curl -s 'https://hermes.pyth.network/api/latest_price_feeds?ids[]=0x23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744' | jq '.[] | {price: .price.price, conf: .price.conf}'
+curl -s -H 'User-Agent: Mozilla/5.0' 'https://hermes.pyth.network/api/latest_price_feeds?ids[]=0x23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744' | jq '.[] | {price: .price.price, conf: .price.conf}'
 ```
 
 12. **Fetch multiple Pyth prices (SUI & USDC)**
 ```bash
-curl -s 'https://hermes.pyth.network/v2/updates/price/latest?ids[]=23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744&ids[]=eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a' | jq '.parsed[] | {id: .id[0:8], price: (.price.price | tonumber * pow(10; .price.expo | tonumber))}'
+curl -s -H 'User-Agent: Mozilla/5.0' 'https://hermes.pyth.network/v2/updates/price/latest?ids[]=23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744&ids[]=eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a' | jq '.parsed[] | {id: (.id[0:8]), price: ((.price.price | tonumber) * pow(10; .price.expo | tonumber))}'
 ```
 
 ### **Advanced CLI Techniques**
