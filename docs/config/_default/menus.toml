@@ -3,7 +3,7 @@
 [[main]]
   name = "Docs"
   weight = 10
-  url = "/sui-docs/docs/"
+  url = "https://gedin-eth.github.io/sui-docs/docs/"
 
 [[main]]
   name = "GitHub"
