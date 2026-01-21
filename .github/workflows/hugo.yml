@@ -34,6 +34,12 @@ jobs:
     env:
       HUGO_VERSION: 0.151.0
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
       - name: Install Hugo CLI
         run: |
           echo "Installing Hugo ${HUGO_VERSION} extended..."
@@ -53,12 +59,6 @@ jobs:
 
       - name: Install Dart Sass
         run: sudo snap install dart-sass
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
 
       - name: Setup Pages
         id: pages
