@@ -6,7 +6,7 @@ title = "Sui Docs"
 
 # Language settings
 defaultContentLanguage = "en"
-defaultContentLanguageInSubdir = true
+defaultContentLanguageInSubdir = false
 
 # Enable Git info for "last modified" dates
 enableGitInfo = true
