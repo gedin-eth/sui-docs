@@ -28,7 +28,7 @@ The repository is organized into several key areas to support full-stack DeFi de
 
 ### Prerequisites
 
-- [Hugo Extended](https://gohugo.io/installation/) (v0.110.0 or later)
+- [Hugo Extended](https://gohugo.io/installation/) (v0.146.0 or later)
 - [Go](https://golang.org/doc/install) (v1.21 or later)
 - [Node.js](https://nodejs.org/) (v20.x for running verification scripts)
 
