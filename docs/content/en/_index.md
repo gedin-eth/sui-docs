@@ -5,7 +5,7 @@ description: "Developer documentation for the Sui blockchain ecosystem"
 
 {{< blocks/cover title="Sui Builder's Manual" height="med" >}}
 <p class="lead mt-4">Version-pinned, runnable, and tested reference implementations for building on Sui.</p>
-<a class="btn btn-lg btn-primary me-3 mb-4" href="/en/docs/">
+<a class="btn btn-lg btn-primary me-3 mb-4" href="/sui-docs/en/docs/">
   Read the Manual
 </a>
 <a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/gedin-eth/sui-docs">
