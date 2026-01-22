@@ -133,6 +133,7 @@ Run the core verification script to check network connectivity and CLI status:
 ### DeFi Protocols
 - [Cetus CLMM DEX](/docs/content/en/docs/defi/cetus.md)
 - [DeepBook CLOB](/docs/content/en/docs/defi/deepbook.md)
+- [Aftermath Router](/docs/content/en/docs/defi/09-defi-aftermath.md)
 - [Scallop Lending](/docs/content/en/docs/defi/scallop.md)
 - [NAVI Protocol](/docs/content/en/docs/defi/navi.md)
 - [Suilend](/docs/content/en/docs/defi/suilend.md)
