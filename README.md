@@ -65,11 +65,6 @@ Verify network connectivity and CLI status:
 ./scripts/verify-sui-core.sh
 ```
 
-Verify documentation weight consistency:
-```bash
-npm run verify:doc-weights
-```
-
 ## Documentation Structure
 
 ### Getting Started
