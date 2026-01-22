@@ -70,7 +70,7 @@ jobs:
 
       - name: Verify Documentation Weights
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm run verify:doc-weights
 
       - name: Setup Go
