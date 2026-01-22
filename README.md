@@ -22,8 +22,6 @@ The repository is organized into several key areas to support full-stack DeFi de
 - `/scripts`: Verification scripts for testing network health and protocol functionality
 - `/config`: Configuration templates and environment settings
 
-![The Sui Developer Landscape](./assets/image-13708d02-63d2-4cd3-a02a-263bb787e953.png)
-
 ## Local Development
 
 ### Prerequisites
