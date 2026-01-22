@@ -122,27 +122,32 @@ Run the core verification script to check network connectivity and CLI status:
 ## Documentation Structure
 
 ### Getting Started
-- [Overview](/docs/content/en/docs/getting-started/overview.md)
-- [Toolchain & Versioning](/docs/content/en/docs/getting-started/toolchain.md)
-- [Networks & RPCs](/docs/content/en/docs/getting-started/networks-rpc.md)
-- [Move Package System](/docs/content/en/docs/getting-started/move-packages.md)
-- [PTBs & Transactions](/docs/content/en/docs/getting-started/ptb-transactions.md)
+- [Overview](/docs/content/en/docs/getting-started/00-overview.md)
+- [Toolchain & Versioning](/docs/content/en/docs/getting-started/01-toolchain.md)
+- [Networks & RPCs](/docs/content/en/docs/getting-started/02-networks-rpc.md)
+- [Move Package System](/docs/content/en/docs/getting-started/03-move-packages.md)
+- [PTBs & Transactions](/docs/content/en/docs/getting-started/04-ptb-transactions.md)
 
 ### DeFi Protocols
-- [Cetus CLMM DEX](/docs/content/en/docs/defi/cetus.md)
-- [DeepBook CLOB](/docs/content/en/docs/defi/deepbook.md)
+- [Cetus CLMM DEX](/docs/content/en/docs/defi/05-defi-cetus.md)
+- [Scallop Lending](/docs/content/en/docs/defi/06-defi-scallop.md)
+- [NAVI Protocol](/docs/content/en/docs/defi/07-defi-navi.md)
+- [DeepBook CLOB](/docs/content/en/docs/defi/08-defi-deepbook.md)
 - [Aftermath Router](/docs/content/en/docs/defi/09-defi-aftermath.md)
-- [Scallop Lending](/docs/content/en/docs/defi/scallop.md)
-- [NAVI Protocol](/docs/content/en/docs/defi/navi.md)
-- [Suilend](/docs/content/en/docs/defi/suilend.md)
-- [Bucket Protocol](/docs/content/en/docs/defi/bucket.md)
+
+### Advanced Topics
+- [Liquidation Bots](/docs/content/en/docs/advanced/10-liquidation-bots.md)
+- [Suilend](/docs/content/en/docs/advanced/11-suilend.md)
+- [Bucket Protocol](/docs/content/en/docs/advanced/12-bucket-protocol.md)
+- [Community Projects](/docs/content/en/docs/advanced/15-community-projects.md)
+- [Community Protocols](/docs/content/en/docs/advanced/16-community-protocols.md)
 
 ### Reference
-- [Liquidation Bots](/docs/content/en/docs/reference/liquidation-bots.md)
-- [Oracle Integration](/docs/content/en/docs/reference/oracle-integration.md)
-- [Troubleshooting](/docs/content/en/docs/reference/troubleshooting.md)
-- [Production Checklist](/docs/content/en/docs/reference/production-checklist.md)
-- [Token Registry](/docs/content/en/docs/reference/token-registry.md)
+- [Oracle Integration](/docs/content/en/docs/reference/13-oracle-integration.md)
+- [Token Registry](/docs/content/en/docs/reference/14-token-registry.md)
+- [Troubleshooting](/docs/content/en/docs/reference/17-troubleshooting.md)
+- [Production Checklist](/docs/content/en/docs/reference/18-production-checklist.md)
+- [Utility Tools](/docs/content/en/docs/reference/19-utility-tools.md)
 
 ## Advanced Examples
 - [Atomic Swap & Deposit](./examples/ptb-swap-and-deposit.ts)
