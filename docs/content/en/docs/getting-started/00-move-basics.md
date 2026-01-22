@@ -1,7 +1,7 @@
 ---
 title: "Sui Move Fundamentals"
-linkTitle: "0. Move Basics"
-weight: 0
+linkTitle: "Move Basics"
+weight: 0.6
 type: docs
 description: "Core Move programming concepts on Sui including objects, abilities, and ownership"
 ---

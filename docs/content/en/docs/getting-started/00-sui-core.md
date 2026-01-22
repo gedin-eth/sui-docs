@@ -1,7 +1,7 @@
 ---
 title: "Sui Protocol Core & CLI"
-linkTitle: "0. Sui Core"
-weight: 0
+linkTitle: "Sui Core"
+weight: 0.5
 type: docs
 description: "Overview of the Sui blockchain protocol, architecture, and CLI usage"
 ---

@@ -6,6 +6,8 @@ type: docs
 description: "Introduction to the Sui Builder's Manual"
 ---
 
+This page provides an overview of the Sui Builder's Manual structure and philosophy.
+
 # Sui Builder's Manual
 
 A **version-pinned, runnable, and tested reference implementation** for building on the Sui network.
