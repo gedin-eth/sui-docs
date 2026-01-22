@@ -1,5 +1,5 @@
 ---
-title: "Community Projects & Applications"
+title: "Chapter 15: Community Projects & Applications"
 linkTitle: "15. Community Projects"
 weight: 15
 type: docs

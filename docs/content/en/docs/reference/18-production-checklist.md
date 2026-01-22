@@ -1,7 +1,7 @@
 ---
-title: "Chapter 9: Production Checklist"
-linkTitle: "9. Production Checklist"
-weight: 9
+title: "Chapter 18: Production Checklist"
+linkTitle: "18. Production Checklist"
+weight: 18
 type: docs
 ---
 

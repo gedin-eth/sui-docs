@@ -1,7 +1,7 @@
 ---
-title: "Utility Tools & Specialized SDKs"
-linkTitle: "15. Utility Tools"
-weight: 15
+title: "Chapter 19: Utility Tools & Specialized SDKs"
+linkTitle: "19. Utility Tools"
+weight: 19
 type: docs
 description: "Documentation for specialized tools and SDKs including DeepBookPy and Sui DeFi Vault"
 ---

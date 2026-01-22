@@ -1,0 +1,87 @@
+{
+  "date": "2026-01-22T09:52:15.508Z",
+  "total": 15,
+  "successful": 13,
+  "failed": 0,
+  "timedOut": 2,
+  "errors": 0,
+  "results": [
+    {
+      "file": "examples/defi/aftermath_router.ts",
+      "status": "success",
+      "duration": 2437
+    },
+    {
+      "file": "examples/defi/cetus_swap.ts",
+      "status": "success",
+      "duration": 2990
+    },
+    {
+      "file": "examples/defi/cyclic_arbitrage.ts",
+      "status": "success",
+      "duration": 2906
+    },
+    {
+      "file": "examples/defi/deepbook_flashloan.ts",
+      "status": "success",
+      "duration": 1863
+    },
+    {
+      "file": "examples/defi/navi_supply.ts",
+      "status": "success",
+      "duration": 2547
+    },
+    {
+      "file": "examples/defi/scallop_liquidate.ts",
+      "status": "success",
+      "duration": 8485
+    },
+    {
+      "file": "examples/defi/scallop_supply.ts",
+      "status": "success",
+      "duration": 7799
+    },
+    {
+      "file": "examples/defi/springsui_unwrap.ts",
+      "status": "success",
+      "duration": 1838
+    },
+    {
+      "file": "examples/ptb-flash-loan-arbitrage.ts",
+      "status": "success",
+      "duration": 7800
+    },
+    {
+      "file": "examples/ptb-scallop-liquidation.ts",
+      "status": "success",
+      "duration": 8432
+    },
+    {
+      "file": "examples/ptb-swap-and-deposit.ts",
+      "status": "success",
+      "duration": 7793
+    },
+    {
+      "file": "examples/ts/ptb_transfer.ts",
+      "status": "success",
+      "duration": 2620
+    },
+    {
+      "file": "scripts/doctor.ts",
+      "status": "success",
+      "duration": 2806
+    },
+    {
+      "file": "scripts/find_cetus_pools.ts",
+      "status": "timeout",
+      "duration": 120008,
+      "error": "Test exceeded 120s timeout"
+    },
+    {
+      "file": "scripts/test_scallop_sdk.ts",
+      "status": "timeout",
+      "duration": 30011,
+      "error": "Test exceeded 30s timeout"
+    }
+  ]
+}

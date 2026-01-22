@@ -1,7 +1,7 @@
 ---
-title: "Chapter 8: Troubleshooting"
-linkTitle: "8. Troubleshooting"
-weight: 8
+title: "Chapter 17: Troubleshooting"
+linkTitle: "17. Troubleshooting"
+weight: 17
 type: docs
 ---
 

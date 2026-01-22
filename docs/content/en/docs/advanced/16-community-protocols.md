@@ -1,5 +1,5 @@
 ---
-title: "Community DeFi Protocols"
+title: "Chapter 16: Community DeFi Protocols"
 linkTitle: "16. Community Protocols"
 weight: 16
 type: docs
