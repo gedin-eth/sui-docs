@@ -75,7 +75,26 @@ jobs:
           cache-dependency-path: docs/go.sum
 
       - name: Install Hugo Modules
-        run: hugo mod get
+        run: |
+          # Retry logic for transient GitHub infrastructure errors (500 Internal Server Error)
+          max_attempts=3
+          attempt=1
+          while [ $attempt -le $max_attempts ]; do
+            echo "Attempt $attempt of $max_attempts: Installing Hugo modules..."
+            if hugo mod get; then
+              echo "Hugo modules installed successfully"
+              exit 0
+            else
+              if [ $attempt -lt $max_attempts ]; then
+                wait_time=$((attempt * 10))
+                echo "Module installation failed, waiting ${wait_time}s before retry..."
+                sleep $wait_time
+              fi
+              attempt=$((attempt + 1))
+            fi
+          done
+          echo "Failed to install Hugo modules after $max_attempts attempts"
+          exit 1
         working-directory: ./docs
 
       - name: Build with Hugo
