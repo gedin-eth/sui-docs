@@ -68,6 +68,11 @@ jobs:
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
         working-directory: ./docs
 
+      - name: Verify Documentation Weights
+        run: |
+          npm ci
+          npm run verify:doc-weights
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:

@@ -9,7 +9,8 @@
     "exec:scallop": "tsx examples/defi/scallop_supply.ts",
     "exec:cetus": "tsx examples/defi/cetus_swap.ts",
     "exec:navi": "tsx examples/defi/navi_supply.ts",
-    "verify:doc-weights": "tsx scripts/verify-doc-weights.ts"
+    "verify:doc-weights": "tsx scripts/verify-doc-weights.ts",
+    "setup:hooks": "bash scripts/setup-git-hooks.sh"
   },
   "dependencies": {
     "@cetusprotocol/cetus-sui-clmm-sdk": "^5.4.0",
