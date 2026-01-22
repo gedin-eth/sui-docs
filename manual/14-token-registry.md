@@ -24,6 +24,40 @@ Most Sui Move functions require full type strings for generic arguments (e.g., `
 
 ---
 
+---
+
+## **LST Token Handling**
+
+**Lesson Learned**: Liquid Staking Tokens (LSTs) like **SPRING_SUI** cannot be directly swapped on DeepBook, but they can be instantly unwrapped via their respective SDKs.
+
+### **SPRING_SUI Unwrapping**
+
+SPRING_SUI can be unwrapped to SUI using the SpringSui SDK with a 0.01% fee:
+
+```typescript
+import { SpringSuiSDK } from '@suilend/springsui-sdk';
+
+const springSuiSDK = new SpringSuiSDK({ network: 'mainnet' });
+
+// Unwrap SPRING_SUI → SUI (0.01% fee)
+const suiCoin = await springSuiSDK.unwrap(tx, springSuiCoin, SPRING_SUI_TYPE);
+
+// Then swap SUI → USDC via your preferred DEX
+const usdcCoin = await swapSuiToUsdc(tx, suiCoin);
+```
+
+**Route Pattern**: `SPRING_SUI → unwrap (0.01% fee) → SUI → swap → USDC`
+
+**Example**: See `examples/defi/springsui_unwrap.ts` for complete implementation including universal router pattern.
+
+### **Other LST Tokens**
+
+- **afSUI**: Use afSUI SDK unwrap methods
+- **haSUI**: Use haSUI SDK unwrap methods
+- Each LST has its own unwrap fee structure
+
+---
+
 ## **Liquidity Note**
 
 Wormhole bridged assets (**wUSDC**, **wUSDT**) often have limited liquidity on native Sui DEXs like Cetus. Liquidators should verify available swap routes before attempting to liquidate obligations containing these assets.

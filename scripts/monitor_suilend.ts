@@ -5,6 +5,7 @@
 
 import { SuilendClient, LENDING_MARKET_ID, LENDING_MARKET_TYPE } from '@suilend/sdk';
 import { client, logCandidates, LiquidationCandidate } from './utils/monitoring_common';
+import { retryWithBackoff } from './utils/retry';
 
 // Suilend Package ID
 const SUILEND_PACKAGE_ID = '0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf';
@@ -13,13 +14,16 @@ async function monitorSuilend() {
   console.log('🚀 Starting Suilend Monitoring...');
 
   // 1. Fetch recent ObligationDataEvent
+  // Lesson Learned: Use retry logic with exponential backoff for rate limits
   console.log('Fetching recent Suilend ObligationDataEvents...');
-  const events = await client.queryEvents({
-    query: {
-      MoveEventType: `${SUILEND_PACKAGE_ID}::obligation::ObligationDataEvent`,
-    },
-    limit: 50,
-  });
+  const events = await retryWithBackoff(() =>
+    client.queryEvents({
+      query: {
+        MoveEventType: `${SUILEND_PACKAGE_ID}::obligation::ObligationDataEvent`,
+      },
+      limit: 50,
+    })
+  );
 
   console.log(`Found ${events.data.length} ObligationDataEvents.`);
 
@@ -30,9 +34,11 @@ async function monitorSuilend() {
     const obligationId = data.obligation_id;
     
     // Suilend health factor: deposited_value / weighted_borrowed_value
-    const depositedValue = Number(data.deposited_value_usd.value) / 1e18; // assuming 18 decimals for USD values in events
-    const weightedBorrowValue = Number(data.weighted_borrowed_value_usd.value) / 1e18;
-    const unhealthyBorrowValue = Number(data.unhealthy_borrow_value_usd.value) / 1e18;
+    // Lesson Learned: SDK returns Decimal objects with BigInt .value property
+    // Need Number(o.weightedBorrowedValueUsd?.value || 0n) / 1e18 - not just .value
+    const depositedValue = Number(data.deposited_value_usd?.value || 0n) / 1e18;
+    const weightedBorrowValue = Number(data.weighted_borrowed_value_usd?.value || 0n) / 1e18;
+    const unhealthyBorrowValue = Number(data.unhealthy_borrow_value_usd?.value || 0n) / 1e18;
 
     const healthFactor = weightedBorrowValue > 0 ? unhealthyBorrowValue / weightedBorrowValue : 2.0;
 

@@ -1,8 +1,7 @@
 import { Transaction } from '@mysten/sui/transactions';
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client';
-import { initCetusSDK, Percentage, d } from '@cetusprotocol/cetus-sui-clmm-sdk';
+import { initCetusSDK } from '@cetusprotocol/cetus-sui-clmm-sdk';
 import { Scallop } from '@scallop-io/sui-scallop-sdk';
-import BN from 'bn.js';
 
 /**
  * Module: Advanced PTB Flash Loan Arbitrage
@@ -20,11 +19,16 @@ async function main() {
     const SENDER = '0x...'; // Replace with your address
     const client = new SuiClient({ url: getFullnodeUrl('mainnet') });
     
+    // Use a valid address for Scallop initialization (conceptual example)
+    const scallopAddress = SENDER.includes('...') 
+        ? '0x0000000000000000000000000000000000000000000000000000000000000000' // Zero address for conceptual examples
+        : SENDER;
+    
     // 1. Initialize SDKs
     const cetus = initCetusSDK({ network: 'mainnet' });
     const scallop = new Scallop({ 
         networkType: 'mainnet', 
-        walletAddress: SENDER 
+        walletAddress: scallopAddress 
     });
     
     const scallopBuilder = await scallop.createScallopBuilder();
@@ -78,7 +82,11 @@ async function main() {
 
     // 7. Handle Remaining Profit
     // Any remaining USDC after repayment is the arbitrage profit.
-    tx.transferObjects([profitUsdc], tx.pure.address(SENDER));
+    // Use zero address for conceptual examples (won't execute)
+    const recipientAddress = SENDER.includes('...')
+        ? '0x0000000000000000000000000000000000000000000000000000000000000000'
+        : SENDER;
+    tx.transferObjects([profitUsdc], tx.pure.address(recipientAddress));
 
     console.log("Advanced Flash Loan PTB constructed.");
     // const result = await client.signAndExecuteTransaction({ signer: keypair, transaction: tx });

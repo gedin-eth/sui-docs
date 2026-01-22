@@ -78,3 +78,11 @@ const [remainingDebt, seizedCollateral] = tx.moveCall({
 // Transfer seized collateral to your wallet or swap it
 tx.transferObjects([seizedCollateral], tx.pure.address(MY_ADDRESS));
 ```
+
+---
+
+## Example: Complete Liquidation PTB
+
+See `examples/ptb-scallop-liquidation.ts` for a complete liquidation flow implementation using the Scallop SDK.
+
+**Note**: The example uses placeholder values (`'0x...'`) for addresses and obligation IDs. In production, replace these with actual values. The code automatically uses the keypair's address when a placeholder is detected to prevent validation errors during PTB construction.

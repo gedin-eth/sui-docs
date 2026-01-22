@@ -129,6 +129,69 @@ const [baseCoinOut, quoteCoinOut, deepCoin] = tx.moveCall({
 
 ---
 
+## **Flash Loan Architecture**
+
+**Lesson Learned**: DeepBook V3 has separate functions for borrowing flash loans in base vs quote tokens. You must match the token type exactly when returning the loan.
+
+### **Borrow Flash Loan in Base Token**
+
+```typescript
+// Borrow SUI (base token)
+const [baseCoin, quoteCoin, deepCoin, receipt] = tx.moveCall({
+  target: `${DEEPBOOK_PACKAGE}::clob_v2::borrow_flashloan_base`,
+  arguments: [
+    tx.object(POOL_ID),
+    tx.object(ACCOUNT_CAP_ID),
+    tx.pure.u64(amount),
+    zeroDeep, // Zero DEEP coin for fees
+    tx.object('0x6'), // clock
+  ],
+  typeArguments: [BASE_COIN_TYPE, QUOTE_COIN_TYPE],
+});
+
+// Repay MUST use repay_flashloan_base and return BASE token
+tx.moveCall({
+  target: `${DEEPBOOK_PACKAGE}::clob_v2::repay_flashloan_base`,
+  arguments: [tx.object(POOL_ID), baseCoin, receipt, tx.object('0x6')],
+  typeArguments: [BASE_COIN_TYPE, QUOTE_COIN_TYPE],
+});
+```
+
+### **Borrow Flash Loan in Quote Token**
+
+```typescript
+// Borrow USDC (quote token)
+const [baseCoin, quoteCoin, deepCoin, receipt] = tx.moveCall({
+  target: `${DEEPBOOK_PACKAGE}::clob_v2::borrow_flashloan_quote`,
+  arguments: [
+    tx.object(POOL_ID),
+    tx.object(ACCOUNT_CAP_ID),
+    tx.pure.u64(amount),
+    zeroDeep,
+    tx.object('0x6'),
+  ],
+  typeArguments: [BASE_COIN_TYPE, QUOTE_COIN_TYPE],
+});
+
+// Repay MUST use repay_flashloan_quote and return QUOTE token
+tx.moveCall({
+  target: `${DEEPBOOK_PACKAGE}::clob_v2::repay_flashloan_quote`,
+  arguments: [tx.object(POOL_ID), quoteCoin, receipt, tx.object('0x6')],
+  typeArguments: [BASE_COIN_TYPE, QUOTE_COIN_TYPE],
+});
+```
+
+**Key Points**:
+- Use `borrow_flashloan_base` for base token (e.g., SUI)
+- Use `borrow_flashloan_quote` for quote token (e.g., USDC)
+- Repayment function must match the borrow function (`repay_flashloan_base` vs `repay_flashloan_quote`)
+- Token type in repayment must match the borrowed token type
+- Zero DEEP coin for fees works (for now)
+
+**Example**: See `examples/defi/deepbook_flashloan.ts` for complete implementations.
+
+---
+
 ## **Verification via CLI**
 
 ### **Query Pool Details**

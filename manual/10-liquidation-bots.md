@@ -118,6 +118,60 @@ The script will:
 
 ---
 
+## **Universal Router Pattern**
+
+**Lesson Learned**: Hardcoding SUI/USDC paths breaks for exotic collateral. A universal router pattern (detect → route → execute) scales to any token type.
+
+### **Token-Agnostic Design**
+
+Instead of hardcoding swap paths, implement a router that:
+
+1. **Detect**: Identify token type (standard, LST, bridged, etc.)
+2. **Route**: Determine the appropriate path:
+   - Standard tokens: Direct swap
+   - LST tokens: Unwrap → swap
+   - Bridged tokens: Check liquidity → route via available DEX
+3. **Execute**: Build and execute the PTB
+
+### **Example Implementation**
+
+```typescript
+async function universalTokenRouter(
+  collateralCoin: any,
+  collateralType: string
+) {
+  const tx = new Transaction();
+
+  // Detect token type
+  const isLST = collateralType.includes('springsui') || 
+                 collateralType.includes('afsui');
+
+  if (isLST && collateralType.includes('springsui')) {
+    // Route: SPRING_SUI → unwrap → SUI → swap → USDC
+    const springSuiSDK = new SpringSuiSDK({ network: 'mainnet' });
+    const suiCoin = await springSuiSDK.unwrap(tx, collateralCoin, collateralType);
+    return await swapSuiToUsdc(tx, suiCoin);
+  } else if (isLST) {
+    // Handle other LST types
+    // ...
+  } else {
+    // Direct swap for standard tokens
+    return await directSwap(tx, collateralCoin, collateralType);
+  }
+}
+```
+
+**Benefits**:
+- Handles any collateral type automatically
+- Unlocks liquidations on exotic assets (e.g., $14M+ in SPRING_SUI)
+- Future-proof for new token types
+
+**Example**: See `examples/defi/springsui_unwrap.ts` for the complete universal router implementation.
+
+---
+
 ## **Example: Complete Liquidation PTB**
 
 See `examples/ptb-scallop-liquidation.ts` for a complete liquidation flow implementation using the Scallop SDK.
+
+**Note**: The example uses placeholder values (`'0x...'`) for addresses and obligation IDs. In production, replace these with actual values. The code automatically uses the keypair's address when a placeholder is detected to prevent validation errors during PTB construction.

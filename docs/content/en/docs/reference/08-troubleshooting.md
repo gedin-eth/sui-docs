@@ -13,6 +13,8 @@ This index maps common error strings to verified remediation steps.
 | :--- | :--- | :--- |
 | `InsufficientCoinBalance` | Account doesn't have enough SUI/MIST for transaction or gas | 1. Use `sui client gas` to check balance. 2. Request funds from faucet. 3. Ensure `tx.setGasBudget()` is sufficient. |
 | `DryRun failure` | Transaction logic would fail if executed | 1. Check object ownership. 2. Verify type arguments. 3. Check for arithmetic overflow in Move code. |
+| `Invalid Sui address 0x...` | Placeholder address `'0x...'` was used in `tx.pure.address()` or similar validation | Replace placeholder with actual address, or use keypair address: `const address = SENDER.includes('...') ? keypair.toSuiAddress() : SENDER;` |
+| `Invalid mnemonic` | Placeholder mnemonic like `'your mnemonic here'` was used | Set `MNEMONIC` environment variable or update `scripts/auth.ts` with a valid mnemonic. For conceptual examples, add validation to skip execution. |
 
 ---
 

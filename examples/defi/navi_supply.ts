@@ -4,10 +4,20 @@
  */
 
 import { NAVISDKClient, Sui } from 'navi-sdk';
-import { MNEMONIC } from '../../scripts/auth';
+// Note: Create scripts/auth.ts from scripts/auth.example.ts with your mnemonic
+// import { MNEMONIC } from '../../scripts/auth';
+const MNEMONIC = process.env.MNEMONIC || 'your mnemonic here'; // Fallback for testing
 
 async function main() {
   console.log('🚀 NAVI Mainnet Execution: Supplying SUI...');
+
+  // Validate mnemonic - skip execution if placeholder
+  if (!MNEMONIC || MNEMONIC === 'your mnemonic here' || MNEMONIC.includes('...')) {
+    console.log('⚠️  Skipping execution: Invalid or placeholder mnemonic.');
+    console.log('   Set MNEMONIC environment variable or update scripts/auth.ts with a valid mnemonic.');
+    console.log('   This is a conceptual example - actual execution requires a funded account.');
+    return;
+  }
 
   const client = new NAVISDKClient({
     mnemonic: MNEMONIC,

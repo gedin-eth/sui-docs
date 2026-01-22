@@ -116,7 +116,9 @@ async function simulateLiquidation(
     stx.txBlock.setSender(sender);
     
     // Build transaction to get bytes
-    const txBytes = await stx.txBlock.build({ client });
+    // Lesson Learned: tx.build({ client }) auto-runs dry gas estimation which fails on complex PTBs
+    // Fix: tx.build({ client, onlyTransactionKind: true }) for simulation
+    const txBytes = await stx.txBlock.build({ client, onlyTransactionKind: true });
     
     console.log(`⏳ Simulating liquidation for obligation ${obligationId.slice(0, 8)}...`);
     const result = await client.devInspectTransactionBlock({

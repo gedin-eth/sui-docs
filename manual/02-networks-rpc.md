@@ -33,6 +33,41 @@ const customClient = new SuiClient({ url: 'https://custom-rpc.com' });
 2.  **Retry Logic**: Public RPCs often return `429 Too Many Requests`. Use a library like `p-retry` or similar for critical operations.
 3.  **Data Persistence**: If your app requires historical data (more than the last few checkpoints), public RPCs may not be sufficient. Consider using an indexer (e.g., Suiscan API, Enoki) or running your own fullnode.
 
+### **Rate Limits & Retry Patterns**
+
+**Lesson Learned**: Public RPC (Mysten) rate limits at ~100 requests/sec. Implement retry logic with exponential backoff and batch parallel requests.
+
+#### **Exponential Backoff Retry**
+
+```typescript
+import { retryWithBackoff } from './utils/retry';
+
+// Wrap RPC calls with retry logic
+const events = await retryWithBackoff(() =>
+  client.queryEvents({
+    query: { MoveEventType: '...' },
+    limit: 50,
+  })
+);
+```
+
+#### **Batch Parallel Requests**
+
+**Lesson Learned**: Batch parallel requests (10 at a time) instead of 50 to avoid rate limits.
+
+```typescript
+import { batchProcess } from './utils/retry';
+
+// Process items in batches of 10
+const results = await batchProcess(
+  obligationIds,
+  async (id) => await query.queryObligation(id),
+  10 // Batch size
+);
+```
+
+**Implementation**: See `scripts/utils/retry.ts` for the complete retry utility with exponential backoff and batch processing.
+
 ---
 
 ## 🚦 Health Checks

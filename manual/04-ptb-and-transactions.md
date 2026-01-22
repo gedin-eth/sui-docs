@@ -52,6 +52,8 @@ const result = await client.signAndExecuteTransaction({
 
 Before executing on-chain, you can "simulate" a transaction to see its effects without paying gas.
 
+### **Standard Dry Run**
+
 ```typescript
 const dryRunResult = await client.dryRunTransactionBlock({
   transactionBlock: await tx.build({ client }),
@@ -59,6 +61,26 @@ const dryRunResult = await client.dryRunTransactionBlock({
 
 console.log(dryRunResult.effects.status);
 ```
+
+### **Simulation Build Pattern**
+
+**Lesson Learned**: `tx.build({ client })` auto-runs dry gas estimation which can fail on complex PTBs. For simulation purposes, use `onlyTransactionKind: true` to skip gas estimation.
+
+```typescript
+// For simulation/devInspect - skip gas estimation
+const txBytes = await tx.build({ client, onlyTransactionKind: true });
+
+const result = await client.devInspectTransactionBlock({
+  sender: senderAddress,
+  transactionBlock: txBytes,
+});
+```
+
+**When to Use**:
+- **Simulation**: Use `onlyTransactionKind: true` when calling `devInspectTransactionBlock` or `dryRunTransactionBlock`
+- **Execution**: Use standard `tx.build({ client })` when preparing for actual on-chain execution
+
+**Example**: See `scripts/liquidator_bridge.ts` and `scripts/simulate_tx.ts` for implementations.
 
 ---
 

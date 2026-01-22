@@ -59,6 +59,33 @@ await suilendClient.liquidateAndRedeem(
 
 ---
 
+## **Health Factor Calculation**
+
+### **SDK Field Parsing**
+
+**Lesson Learned**: Suilend SDK returns `Decimal` objects with BigInt `.value` property. When calculating health factors from event data or SDK responses, you must properly handle the Decimal structure.
+
+**Incorrect Pattern**:
+```typescript
+const weightedBorrowValue = Number(data.weighted_borrowed_value_usd.value) / 1e18;
+```
+
+**Correct Pattern**:
+```typescript
+// Handle optional Decimal with BigInt value property
+const weightedBorrowValue = Number(data.weighted_borrowed_value_usd?.value || 0n) / 1e18;
+const depositedValue = Number(data.deposited_value_usd?.value || 0n) / 1e18;
+```
+
+The `?.value || 0n` pattern ensures:
+1. Safe access to the optional `value` property
+2. Default to `0n` (BigInt zero) if undefined
+3. Proper conversion to Number before division
+
+**Example**: See `scripts/monitor_suilend.ts` for the complete implementation.
+
+---
+
 ## **Liquidation Parameters**
 
 - **Close Factor**: 20% (Liquidators can repay up to 20% of the user's loan in a single transaction).

@@ -13,6 +13,8 @@ async function main() {
     const SENDER = '0x...'; // Replace with your address
     const client = new SuiClient({ url: getFullnodeUrl('mainnet') });
     const keypair = getKeypair();
+    // Use keypair address if SENDER is a placeholder
+    const recipientAddress = SENDER.includes('...') ? keypair.toSuiAddress() : SENDER;
 
     // 1. Initialize Scallop
     const scallop = new Scallop({
@@ -54,7 +56,7 @@ async function main() {
     stx.repayFlashLoan(debtCoinObj, loanReceipt, DEBT_COIN);
 
     // 8. Finalize
-    stx.txBlock.transferObjects([seizedCollateral, remainingDebt], stx.txBlock.pure.address(SENDER));
+    stx.txBlock.transferObjects([seizedCollateral, remainingDebt], stx.txBlock.pure.address(recipientAddress));
 
     console.log('Liquidation PTB constructed successfully.');
     // await client.signAndExecuteTransaction({ signer: keypair, transaction: stx.txBlock });

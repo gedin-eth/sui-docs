@@ -49,7 +49,9 @@ async function main() {
   //     digest: '...', // Replace with actual digest
   // }]);
   
-  const txBytes = await stx.txBlock.build({ client });
+  // Lesson Learned: tx.build({ client }) auto-runs dry gas estimation which fails on complex PTBs
+  // Fix: tx.build({ client, onlyTransactionKind: true }) for simulation
+  const txBytes = await stx.txBlock.build({ client, onlyTransactionKind: true });
 
   console.log('⏳ Executing dry-run on Mainnet...');
   const dryRunRes = await client.dryRunTransactionBlock({ transactionBlock: txBytes });

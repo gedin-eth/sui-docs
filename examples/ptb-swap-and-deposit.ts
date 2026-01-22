@@ -15,9 +15,14 @@ async function main() {
     const tx = new Transaction();
     const sender = '0x...'; // Replace with your address
 
+    // Use zero address for conceptual examples (won't execute)
+    const scallopAddress = sender.includes('...')
+        ? '0x0000000000000000000000000000000000000000000000000000000000000000'
+        : sender;
+
     // 1. Initial Setup
     const sdk = initCetusSDK({ network: 'mainnet' });
-    const scallop = new Scallop({ networkType: 'mainnet', walletAddress: sender });
+    const scallop = new Scallop({ networkType: 'mainnet', walletAddress: scallopAddress });
     const scallopBuilder = await scallop.createScallopBuilder();
 
     // 2. Cetus Swap (SUI -> USDC)
@@ -50,7 +55,11 @@ async function main() {
     const marketCoin = scallopTxBlock.deposit(usdcCoin, 'usdc');
 
     // 4. Finalize
-    tx.transferObjects([marketCoin], tx.pure.address(sender));
+    // Use zero address for conceptual examples (won't execute)
+    const recipientAddress = sender.includes('...')
+        ? '0x0000000000000000000000000000000000000000000000000000000000000000'
+        : sender;
+    tx.transferObjects([marketCoin], tx.pure.address(recipientAddress));
 
     console.log("PTB constructed successfully.");
     // const result = await client.signAndExecuteTransaction({ signer: keypair, transaction: tx });
